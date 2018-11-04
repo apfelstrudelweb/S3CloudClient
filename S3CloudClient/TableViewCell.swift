@@ -25,7 +25,8 @@ class TableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        self.downloadButton.imageView?.tintColor = .lightGray
     }
     
     @IBAction func downloadButtonTouched(_ sender: Any) {

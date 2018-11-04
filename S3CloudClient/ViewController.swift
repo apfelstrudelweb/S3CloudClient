@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 
+let cellReuseIdentifier = "elementCell"
+
 class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
@@ -31,7 +33,7 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
         
         //LibraryAPI.shared.clearDB()  // for test purposes only
         
-        tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
+        tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: cellReuseIdentifier)
         self.tableView.tableFooterView = UIView(frame: .zero)
         self.tableView.rowHeight = 90.0
         self.tableView.estimatedRowHeight = 90.0
@@ -101,7 +103,7 @@ extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! TableViewCell
         
         let element = fetchedResultsController.object(at: indexPath)
         guard let assetPNG: Asset = element.assets!.first(where: { ($0 as! Asset).type == AssetType.png.rawValue }) as? Asset, let relativeFilePath = assetPNG.relativeFilePath else {
@@ -116,6 +118,8 @@ extension ViewController: UITableViewDelegate {
         } else {
             cell.videoImageView.image = UIImage(named: "placeholder")
         }
+        
+        cell.videoLabel.text = element.fileName
         
         return cell
     }
