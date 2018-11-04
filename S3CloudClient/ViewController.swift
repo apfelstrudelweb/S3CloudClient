@@ -15,6 +15,7 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
     private let persistencyManager = PersistencyManager()
     private let fileHandler = FileHandler()
+    private let refreshControl = UIRefreshControl()
     
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Element> = {
         
@@ -28,6 +29,8 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //LibraryAPI.shared.clearDB()  // for test purposes only
+        
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
         self.tableView.tableFooterView = UIView(frame: .zero)
         self.tableView.rowHeight = 90.0
@@ -35,30 +38,46 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
         self.tableView.allowsSelection = false
         self.tableView.delegate = self
         
-        //LibraryAPI.shared.clearDB()  // for test purposes only
-
-        do {
-            try LibraryAPI.shared.updateCoreDataWithJSON()
-            try LibraryAPI.shared.downloadAssets()
-            try LibraryAPI.shared.processFingerprints()
-        } catch {
-            print(error)
-            displayAlert(message: error.legibleDescription)
+        if #available(iOS 10.0, *) {
+            self.tableView.refreshControl = refreshControl
+        } else {
+            self.tableView.addSubview(refreshControl)
         }
         
-        do {
-            try self.fetchedResultsController.performFetch()
-            self.tableView.reloadData()
-        } catch {
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        fetchRemoteData()
+    }
+    
+    fileprivate func fetchRemoteData() {
+        
+        // do expensive operations in the background thread in order to not block the GUI meanwhile
+        DispatchQueue.global(qos: .background).async {
             
+            do {
+                try LibraryAPI.shared.updateCoreDataWithJSON()
+                try LibraryAPI.shared.downloadAssets()
+                try LibraryAPI.shared.processFingerprints()
+                print("**************** remote data fetched ****************")
+                try self.fetchedResultsController.performFetch()
+                DispatchQueue.main.async {
+                    // GUI staff only in the main thread!
+                    self.tableView.reloadData()
+                }
+            } catch {
+                print(error)
+                displayAlert(message: error.legibleDescription)
+            }
         }
-
-        print("**************** hopefully last console output ****************")
+    }
+    
+    @objc private func refreshData(_ sender: Any) {
         
-
+        self.fetchRemoteData()
+        self.refreshControl.endRefreshing()
         
     }
-
+    
+    
 }
 
 extension ViewController: UITableViewDataSource {

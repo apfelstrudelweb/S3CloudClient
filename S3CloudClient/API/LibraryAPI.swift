@@ -35,9 +35,9 @@ final class LibraryAPI: NSObject {
     
     // Operations
     private let queue: OperationQueue = OperationQueue()
-    private lazy var processJSONOperation = ProcessJSONOperation(context: persistencyManager.managedObjectContext)
-    private lazy var downloadAssetsOperation = DownloadAssetsOperation(types: types, context: persistencyManager.managedObjectContext)
-    private lazy var processFingerprintsOperation = ProcessFingerprintsOperation(types: types, context: persistencyManager.managedObjectContext)
+//    private lazy var processJSONOperation = ProcessJSONOperation(context: persistencyManager.managedObjectContext)
+//    private lazy var downloadAssetsOperation = DownloadAssetsOperation(types: types, context: persistencyManager.managedObjectContext)
+//    private lazy var processFingerprintsOperation = ProcessFingerprintsOperation(types: types, context: persistencyManager.managedObjectContext)
     
     // Mark: for testing only
     func clearDB() {
@@ -48,6 +48,7 @@ final class LibraryAPI: NSObject {
     // Mark: download JSON data from Cloud
     func updateCoreDataWithJSON() throws {
         
+        let processJSONOperation = ProcessJSONOperation(context: persistencyManager.managedObjectContext)
         queue.addOperations([processJSONOperation], waitUntilFinished: true)
         self.timestampHasChanged = processJSONOperation.timestampHasChanged
         
@@ -60,6 +61,7 @@ final class LibraryAPI: NSObject {
         
         if !self.timestampHasChanged { return }
 
+        let downloadAssetsOperation = DownloadAssetsOperation(types: types, context: persistencyManager.managedObjectContext)
         queue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
         guard let error = downloadAssetsOperation.error else { return }
         throw error
@@ -70,6 +72,7 @@ final class LibraryAPI: NSObject {
         
         if !self.timestampHasChanged { return }
         
+        let processFingerprintsOperation = ProcessFingerprintsOperation(types: types, context: persistencyManager.managedObjectContext)
         queue.addOperations([processFingerprintsOperation], waitUntilFinished: true)
         guard let error = processFingerprintsOperation.error else { return }
         throw error
