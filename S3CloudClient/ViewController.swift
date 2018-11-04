@@ -35,7 +35,7 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
         self.tableView.allowsSelection = false
         self.tableView.delegate = self
         
-        LibraryAPI.shared.clearDB()  // for test purposes only
+        //LibraryAPI.shared.clearDB()  // for test purposes only
 
         do {
             try LibraryAPI.shared.updateCoreDataWithJSON()

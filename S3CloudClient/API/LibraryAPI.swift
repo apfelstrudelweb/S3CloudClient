@@ -23,6 +23,8 @@ import UIKit
  */
 final class LibraryAPI: NSObject {
     
+    private var timestampHasChanged: Bool = true
+    
     static let shared = LibraryAPI()
     private let types = [AssetType.png, AssetType.srt] // asset types to be downloaded and processed
     
@@ -40,18 +42,23 @@ final class LibraryAPI: NSObject {
     // Mark: for testing only
     func clearDB() {
         persistencyManager.clearDB()
+        UserDefaults.standard.set(nil, forKey: "jsonModificationDate")
     }
     
     // Mark: download JSON data from Cloud
     func updateCoreDataWithJSON() throws {
         
         queue.addOperations([processJSONOperation], waitUntilFinished: true)
+        self.timestampHasChanged = processJSONOperation.timestampHasChanged
+        
         guard let error = processJSONOperation.error else { return }
         throw error
     }
     
     // Mark: download assets from Cloud
     func downloadAssets() throws {
+        
+        if !self.timestampHasChanged { return }
 
         queue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
         guard let error = downloadAssetsOperation.error else { return }
@@ -60,6 +67,8 @@ final class LibraryAPI: NSObject {
     
     // Mark: generate local fingerprints and put them into CoreData
     func processFingerprints() throws {
+        
+        if !self.timestampHasChanged { return }
         
         queue.addOperations([processFingerprintsOperation], waitUntilFinished: true)
         guard let error = processFingerprintsOperation.error else { return }

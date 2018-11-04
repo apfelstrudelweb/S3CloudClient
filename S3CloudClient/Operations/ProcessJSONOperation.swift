@@ -39,10 +39,12 @@ import AWSCore
  */
 final class ProcessJSONOperation: BasicOperation {
     
+    public var timestampHasChanged: Bool
     private var context: NSManagedObjectContext
     
     init(context: NSManagedObjectContext) {
         self.context = context
+        self.timestampHasChanged = true
     }
 
     override func main() {
@@ -69,6 +71,22 @@ final class ProcessJSONOperation: BasicOperation {
                         self.error = S3CloudError.wrongStatusCode(reason: "While trying to fetch the JSON we got the following status code \(statusCode)")
                         self.finish()
                         return
+                    }
+                }
+                
+                if let response = task.response, let jsonModificationDate = response.allHeaderFields["Last-Modified"] as? String {
+                    
+                    if let savedJsonModificationDate = UserDefaults.standard.object(forKey: "jsonModificationDate") as? String {
+                        if savedJsonModificationDate.compare(jsonModificationDate) == .orderedSame {
+                            self.timestampHasChanged = false
+                            // don't need to download unchanged JSON file
+                            self.finish()
+                            return
+                        } else {
+                            UserDefaults.standard.set(jsonModificationDate, forKey: "jsonModificationDate")
+                        }
+                    } else {
+                        UserDefaults.standard.set(jsonModificationDate, forKey: "jsonModificationDate")
                     }
                 }
                 
