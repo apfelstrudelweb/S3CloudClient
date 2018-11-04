@@ -1,0 +1,6 @@
+framework module Pods_S3CloudClientTests {
+  umbrella header "Pods-S3CloudClientTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ThA-6N-pMx">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="g0e-Gg-fKm">
+            <objects>
+                <viewController id="ThA-6N-pMx" customClass="ViewController" customModule="S3CloudClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="P71-2F-ED3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="boo-ND-7qh">
+                                <rect key="frame" x="0.0" y="86" width="375" height="581"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="Fih-sR-gFq" customClass="TableViewCell" customModule="SubtitleDemo_Example" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fih-sR-gFq" id="9Nz-h4-BUe">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="ThA-6N-pMx" id="guK-Js-0cL"/>
+                                    <outlet property="delegate" destination="ThA-6N-pMx" id="gda-qg-gps"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OfJ-h8-qs4">
+                                <rect key="frame" x="187.5" y="30" width="187.5" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Download All"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWn-m1-mkV">
+                                <rect key="frame" x="0.0" y="30" width="187.5" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="Clear All"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="boo-ND-7qh" firstAttribute="trailing" secondItem="0fv-lp-6e7" secondAttribute="trailing" id="0dj-uY-0mf"/>
+                            <constraint firstItem="boo-ND-7qh" firstAttribute="top" secondItem="OfJ-h8-qs4" secondAttribute="bottom" constant="20" id="1SC-rX-fD2"/>
+                            <constraint firstItem="EWn-m1-mkV" firstAttribute="leading" secondItem="0fv-lp-6e7" secondAttribute="leading" id="44s-0D-8J4"/>
+                            <constraint firstItem="boo-ND-7qh" firstAttribute="leading" secondItem="0fv-lp-6e7" secondAttribute="leading" id="Hua-Sd-LCJ"/>
+                            <constraint firstItem="boo-ND-7qh" firstAttribute="bottom" secondItem="0fv-lp-6e7" secondAttribute="bottom" id="OTR-DS-zw7"/>
+                            <constraint firstItem="OfJ-h8-qs4" firstAttribute="width" secondItem="EWn-m1-mkV" secondAttribute="width" id="SeL-bA-l8x"/>
+                            <constraint firstItem="OfJ-h8-qs4" firstAttribute="top" secondItem="0fv-lp-6e7" secondAttribute="top" constant="10" id="TRS-Sn-chB"/>
+                            <constraint firstItem="0fv-lp-6e7" firstAttribute="trailing" secondItem="OfJ-h8-qs4" secondAttribute="trailing" id="Vgl-xi-f6d"/>
+                            <constraint firstItem="EWn-m1-mkV" firstAttribute="top" secondItem="OfJ-h8-qs4" secondAttribute="top" id="fT2-by-Ja1"/>
+                            <constraint firstItem="EWn-m1-mkV" firstAttribute="width" secondItem="P71-2F-ED3" secondAttribute="width" multiplier="0.5" id="hHJ-9y-Tz0"/>
+                            <constraint firstItem="OfJ-h8-qs4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EWn-m1-mkV" secondAttribute="trailing" id="jXj-pR-EfH"/>
+                            <constraint firstItem="EWn-m1-mkV" firstAttribute="bottom" secondItem="OfJ-h8-qs4" secondAttribute="bottom" id="zIj-Md-9kl"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="0fv-lp-6e7"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="boo-ND-7qh" id="MYx-hF-2fK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H7b-Mw-68E" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="463" y="126"/>
+        </scene>
+    </scenes>
+</document>

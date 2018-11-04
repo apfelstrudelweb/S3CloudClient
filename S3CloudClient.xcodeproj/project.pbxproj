@@ -1,0 +1,727 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0A7FC2FB6541EE1A2C2EF0DA /* Pods_S3CloudClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03C4939AAF2C198E09AE15F8 /* Pods_S3CloudClientTests.framework */; };
+		1B99AFCB218B5A3B00CFD7EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFCA218B5A3B00CFD7EC /* AppDelegate.swift */; };
+		1B99AFCD218B5A3B00CFD7EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFCC218B5A3B00CFD7EC /* ViewController.swift */; };
+		1B99AFD0218B5A3B00CFD7EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B99AFCE218B5A3B00CFD7EC /* Main.storyboard */; };
+		1B99AFD3218B5A3B00CFD7EC /* S3CloudClient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFD1218B5A3B00CFD7EC /* S3CloudClient.xcdatamodeld */; };
+		1B99AFD5218B5A3D00CFD7EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B99AFD4218B5A3D00CFD7EC /* Assets.xcassets */; };
+		1B99AFD8218B5A3D00CFD7EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B99AFD6218B5A3D00CFD7EC /* LaunchScreen.storyboard */; };
+		1B99AFE3218B5A3D00CFD7EC /* S3CloudClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFE2218B5A3D00CFD7EC /* S3CloudClientTests.swift */; };
+		1B99AFF1218B5A8900CFD7EC /* PersistencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFF0218B5A8900CFD7EC /* PersistencyManager.swift */; };
+		1B99AFF4218B5AA900CFD7EC /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFF3218B5AA900CFD7EC /* FileHandler.swift */; };
+		1B99AFF8218B5AE000CFD7EC /* LibraryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFF7218B5AE000CFD7EC /* LibraryAPI.swift */; };
+		1B99AFFA218B5B8E00CFD7EC /* CloudHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFF9218B5B8E00CFD7EC /* CloudHandler.swift */; };
+		1B99AFFC218B5D3F00CFD7EC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFFB218B5D3F00CFD7EC /* Constants.swift */; };
+		1B99AFFF218B636500CFD7EC /* HelperClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFFE218B636500CFD7EC /* HelperClasses.swift */; };
+		1B99B005218C5FC600CFD7EC /* Element+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B001218C5FC600CFD7EC /* Element+CoreDataClass.swift */; };
+		1B99B006218C5FC600CFD7EC /* Element+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B002218C5FC600CFD7EC /* Element+CoreDataProperties.swift */; };
+		1B99B007218C5FC600CFD7EC /* Asset+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B003218C5FC600CFD7EC /* Asset+CoreDataClass.swift */; };
+		1B99B008218C5FC600CFD7EC /* Asset+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B004218C5FC600CFD7EC /* Asset+CoreDataProperties.swift */; };
+		1B99B00A218C630100CFD7EC /* FileSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B009218C630100CFD7EC /* FileSystem.swift */; };
+		1B99B00C218C641000CFD7EC /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B00B218C641000CFD7EC /* Error.swift */; };
+		1B99B00E218C648700CFD7EC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B00D218C648700CFD7EC /* Extensions.swift */; };
+		1B99B011218C6AB900CFD7EC /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B010218C6AB900CFD7EC /* Utilities.swift */; };
+		1B99B014218C7BA100CFD7EC /* ProcessJSONOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B013218C7BA100CFD7EC /* ProcessJSONOperation.swift */; };
+		1BF4D532218C89A900D86D9A /* BasicOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF4D531218C89A900D86D9A /* BasicOperation.swift */; };
+		1BF4D537218E1B1D00D86D9A /* DownloadAssetsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF4D536218E1B1D00D86D9A /* DownloadAssetsOperation.swift */; };
+		1BF4D539218F153F00D86D9A /* ProcessFingerprintsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF4D538218F153F00D86D9A /* ProcessFingerprintsOperation.swift */; };
+		1BF4D53E218F25D500D86D9A /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF4D53C218F25D400D86D9A /* TableViewCell.xib */; };
+		1BF4D540218F2DD500D86D9A /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF4D53F218F2DD500D86D9A /* TableViewCell.swift */; };
+		42BA86E45D75BE46857EDD25 /* Pods_S3CloudClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D58DA32C067EE4795ECC6546 /* Pods_S3CloudClient.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1B99AFDF218B5A3D00CFD7EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1B99AFBF218B5A3B00CFD7EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1B99AFC6218B5A3B00CFD7EC;
+			remoteInfo = S3CloudClient;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		03C4939AAF2C198E09AE15F8 /* Pods_S3CloudClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_S3CloudClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		04E6D9C0B21EF016015014F3 /* Pods-S3CloudClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-S3CloudClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-S3CloudClient/Pods-S3CloudClient.debug.xcconfig"; sourceTree = "<group>"; };
+		1B99AFC7218B5A3B00CFD7EC /* S3CloudClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = S3CloudClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B99AFCA218B5A3B00CFD7EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1B99AFCC218B5A3B00CFD7EC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1B99AFCF218B5A3B00CFD7EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1B99AFD2218B5A3B00CFD7EC /* S3CloudClient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = S3CloudClient.xcdatamodel; sourceTree = "<group>"; };
+		1B99AFD4218B5A3D00CFD7EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1B99AFD7218B5A3D00CFD7EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1B99AFD9218B5A3D00CFD7EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B99AFDE218B5A3D00CFD7EC /* S3CloudClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = S3CloudClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B99AFE2218B5A3D00CFD7EC /* S3CloudClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3CloudClientTests.swift; sourceTree = "<group>"; };
+		1B99AFE4218B5A3D00CFD7EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B99AFF0218B5A8900CFD7EC /* PersistencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistencyManager.swift; sourceTree = "<group>"; };
+		1B99AFF3218B5AA900CFD7EC /* FileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHandler.swift; sourceTree = "<group>"; };
+		1B99AFF7218B5AE000CFD7EC /* LibraryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryAPI.swift; sourceTree = "<group>"; };
+		1B99AFF9218B5B8E00CFD7EC /* CloudHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudHandler.swift; sourceTree = "<group>"; };
+		1B99AFFB218B5D3F00CFD7EC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1B99AFFE218B636500CFD7EC /* HelperClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperClasses.swift; sourceTree = "<group>"; };
+		1B99B001218C5FC600CFD7EC /* Element+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Element+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1B99B002218C5FC600CFD7EC /* Element+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Element+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1B99B003218C5FC600CFD7EC /* Asset+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Asset+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1B99B004218C5FC600CFD7EC /* Asset+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Asset+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1B99B009218C630100CFD7EC /* FileSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystem.swift; sourceTree = "<group>"; };
+		1B99B00B218C641000CFD7EC /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		1B99B00D218C648700CFD7EC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1B99B010218C6AB900CFD7EC /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		1B99B013218C7BA100CFD7EC /* ProcessJSONOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessJSONOperation.swift; sourceTree = "<group>"; };
+		1BF4D531218C89A900D86D9A /* BasicOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicOperation.swift; sourceTree = "<group>"; };
+		1BF4D536218E1B1D00D86D9A /* DownloadAssetsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadAssetsOperation.swift; sourceTree = "<group>"; };
+		1BF4D538218F153F00D86D9A /* ProcessFingerprintsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessFingerprintsOperation.swift; sourceTree = "<group>"; };
+		1BF4D53D218F25D500D86D9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TableViewCell.xib; sourceTree = "<group>"; };
+		1BF4D53F218F2DD500D86D9A /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		54FEFA2E5820AA89B037B724 /* Pods-S3CloudClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-S3CloudClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-S3CloudClientTests/Pods-S3CloudClientTests.debug.xcconfig"; sourceTree = "<group>"; };
+		811867314BD5AA1C63A6A85F /* Pods-S3CloudClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-S3CloudClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-S3CloudClient/Pods-S3CloudClient.release.xcconfig"; sourceTree = "<group>"; };
+		D58DA32C067EE4795ECC6546 /* Pods_S3CloudClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_S3CloudClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE8DF28B19F54622EB448E74 /* Pods-S3CloudClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-S3CloudClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-S3CloudClientTests/Pods-S3CloudClientTests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1B99AFC4218B5A3B00CFD7EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42BA86E45D75BE46857EDD25 /* Pods_S3CloudClient.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B99AFDB218B5A3D00CFD7EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A7FC2FB6541EE1A2C2EF0DA /* Pods_S3CloudClientTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1B99AFBE218B5A3B00CFD7EC = {
+			isa = PBXGroup;
+			children = (
+				1B99AFC9218B5A3B00CFD7EC /* S3CloudClient */,
+				1B99AFE1218B5A3D00CFD7EC /* S3CloudClientTests */,
+				1B99AFC8218B5A3B00CFD7EC /* Products */,
+				2DB9DC70289FD54D75CE82D4 /* Pods */,
+				A409190B84782815382588B2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		1B99AFC8218B5A3B00CFD7EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1B99AFC7218B5A3B00CFD7EC /* S3CloudClient.app */,
+				1B99AFDE218B5A3D00CFD7EC /* S3CloudClientTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1B99AFC9218B5A3B00CFD7EC /* S3CloudClient */ = {
+			isa = PBXGroup;
+			children = (
+				1B99B012218C7B8000CFD7EC /* Operations */,
+				1B99B00F218C6A2F00CFD7EC /* Misc */,
+				1B99AFFD218B633F00CFD7EC /* Model */,
+				1B99AFED218B5A4D00CFD7EC /* API */,
+				1B99AFCA218B5A3B00CFD7EC /* AppDelegate.swift */,
+				1B99AFCC218B5A3B00CFD7EC /* ViewController.swift */,
+				1B99AFCE218B5A3B00CFD7EC /* Main.storyboard */,
+				1BF4D53C218F25D400D86D9A /* TableViewCell.xib */,
+				1BF4D53F218F2DD500D86D9A /* TableViewCell.swift */,
+				1B99AFD4218B5A3D00CFD7EC /* Assets.xcassets */,
+				1B99AFD6218B5A3D00CFD7EC /* LaunchScreen.storyboard */,
+				1B99AFD9218B5A3D00CFD7EC /* Info.plist */,
+				1B99AFD1218B5A3B00CFD7EC /* S3CloudClient.xcdatamodeld */,
+			);
+			path = S3CloudClient;
+			sourceTree = "<group>";
+		};
+		1B99AFE1218B5A3D00CFD7EC /* S3CloudClientTests */ = {
+			isa = PBXGroup;
+			children = (
+				1B99AFE2218B5A3D00CFD7EC /* S3CloudClientTests.swift */,
+				1B99AFE4218B5A3D00CFD7EC /* Info.plist */,
+			);
+			path = S3CloudClientTests;
+			sourceTree = "<group>";
+		};
+		1B99AFED218B5A4D00CFD7EC /* API */ = {
+			isa = PBXGroup;
+			children = (
+				1B99AFF9218B5B8E00CFD7EC /* CloudHandler.swift */,
+				1B99AFF3218B5AA900CFD7EC /* FileHandler.swift */,
+				1B99AFF0218B5A8900CFD7EC /* PersistencyManager.swift */,
+				1B99AFF7218B5AE000CFD7EC /* LibraryAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		1B99AFFD218B633F00CFD7EC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1B99B000218C5FAD00CFD7EC /* CoreData */,
+				1B99AFFE218B636500CFD7EC /* HelperClasses.swift */,
+				1B99B009218C630100CFD7EC /* FileSystem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1B99B000218C5FAD00CFD7EC /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				1B99B001218C5FC600CFD7EC /* Element+CoreDataClass.swift */,
+				1B99B002218C5FC600CFD7EC /* Element+CoreDataProperties.swift */,
+				1B99B003218C5FC600CFD7EC /* Asset+CoreDataClass.swift */,
+				1B99B004218C5FC600CFD7EC /* Asset+CoreDataProperties.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		1B99B00F218C6A2F00CFD7EC /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				1B99B00B218C641000CFD7EC /* Error.swift */,
+				1B99AFFB218B5D3F00CFD7EC /* Constants.swift */,
+				1B99B00D218C648700CFD7EC /* Extensions.swift */,
+				1B99B010218C6AB900CFD7EC /* Utilities.swift */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
+		1B99B012218C7B8000CFD7EC /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				1BF4D535218CB08300D86D9A /* Superclass */,
+				1B99B013218C7BA100CFD7EC /* ProcessJSONOperation.swift */,
+				1BF4D536218E1B1D00D86D9A /* DownloadAssetsOperation.swift */,
+				1BF4D538218F153F00D86D9A /* ProcessFingerprintsOperation.swift */,
+			);
+			path = Operations;
+			sourceTree = "<group>";
+		};
+		1BF4D535218CB08300D86D9A /* Superclass */ = {
+			isa = PBXGroup;
+			children = (
+				1BF4D531218C89A900D86D9A /* BasicOperation.swift */,
+			);
+			path = Superclass;
+			sourceTree = "<group>";
+		};
+		2DB9DC70289FD54D75CE82D4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				04E6D9C0B21EF016015014F3 /* Pods-S3CloudClient.debug.xcconfig */,
+				811867314BD5AA1C63A6A85F /* Pods-S3CloudClient.release.xcconfig */,
+				54FEFA2E5820AA89B037B724 /* Pods-S3CloudClientTests.debug.xcconfig */,
+				EE8DF28B19F54622EB448E74 /* Pods-S3CloudClientTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A409190B84782815382588B2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D58DA32C067EE4795ECC6546 /* Pods_S3CloudClient.framework */,
+				03C4939AAF2C198E09AE15F8 /* Pods_S3CloudClientTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1B99AFC6218B5A3B00CFD7EC /* S3CloudClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B99AFE7218B5A3D00CFD7EC /* Build configuration list for PBXNativeTarget "S3CloudClient" */;
+			buildPhases = (
+				CFBDE74149F73567DFD7DF50 /* [CP] Check Pods Manifest.lock */,
+				1B99AFC3218B5A3B00CFD7EC /* Sources */,
+				1B99AFC4218B5A3B00CFD7EC /* Frameworks */,
+				1B99AFC5218B5A3B00CFD7EC /* Resources */,
+				E12712B83EE4FD710B209B84 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = S3CloudClient;
+			productName = S3CloudClient;
+			productReference = 1B99AFC7218B5A3B00CFD7EC /* S3CloudClient.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1B99AFDD218B5A3D00CFD7EC /* S3CloudClientTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B99AFEA218B5A3D00CFD7EC /* Build configuration list for PBXNativeTarget "S3CloudClientTests" */;
+			buildPhases = (
+				F35BFA9E7E58D14C0C5151B0 /* [CP] Check Pods Manifest.lock */,
+				1B99AFDA218B5A3D00CFD7EC /* Sources */,
+				1B99AFDB218B5A3D00CFD7EC /* Frameworks */,
+				1B99AFDC218B5A3D00CFD7EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1B99AFE0218B5A3D00CFD7EC /* PBXTargetDependency */,
+			);
+			name = S3CloudClientTests;
+			productName = S3CloudClientTests;
+			productReference = 1B99AFDE218B5A3D00CFD7EC /* S3CloudClientTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1B99AFBF218B5A3B00CFD7EC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1000;
+				LastUpgradeCheck = 1000;
+				ORGANIZATIONNAME = "Ulrich Vormbrock";
+				TargetAttributes = {
+					1B99AFC6218B5A3B00CFD7EC = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					1B99AFDD218B5A3D00CFD7EC = {
+						CreatedOnToolsVersion = 10.0;
+						TestTargetID = 1B99AFC6218B5A3B00CFD7EC;
+					};
+				};
+			};
+			buildConfigurationList = 1B99AFC2218B5A3B00CFD7EC /* Build configuration list for PBXProject "S3CloudClient" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1B99AFBE218B5A3B00CFD7EC;
+			productRefGroup = 1B99AFC8218B5A3B00CFD7EC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1B99AFC6218B5A3B00CFD7EC /* S3CloudClient */,
+				1B99AFDD218B5A3D00CFD7EC /* S3CloudClientTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1B99AFC5218B5A3B00CFD7EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B99AFD8218B5A3D00CFD7EC /* LaunchScreen.storyboard in Resources */,
+				1BF4D53E218F25D500D86D9A /* TableViewCell.xib in Resources */,
+				1B99AFD5218B5A3D00CFD7EC /* Assets.xcassets in Resources */,
+				1B99AFD0218B5A3B00CFD7EC /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B99AFDC218B5A3D00CFD7EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CFBDE74149F73567DFD7DF50 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-S3CloudClient-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E12712B83EE4FD710B209B84 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-S3CloudClient/Pods-S3CloudClient-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
+				"${BUILT_PRODUCTS_DIR}/CircleProgressView/CircleProgressView.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftSpinner/SwiftSpinner.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CircleProgressView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSpinner.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-S3CloudClient/Pods-S3CloudClient-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F35BFA9E7E58D14C0C5151B0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-S3CloudClientTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1B99AFC3218B5A3B00CFD7EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B99B014218C7BA100CFD7EC /* ProcessJSONOperation.swift in Sources */,
+				1B99B00C218C641000CFD7EC /* Error.swift in Sources */,
+				1B99AFF1218B5A8900CFD7EC /* PersistencyManager.swift in Sources */,
+				1B99B00A218C630100CFD7EC /* FileSystem.swift in Sources */,
+				1B99B007218C5FC600CFD7EC /* Asset+CoreDataClass.swift in Sources */,
+				1B99B008218C5FC600CFD7EC /* Asset+CoreDataProperties.swift in Sources */,
+				1B99AFD3218B5A3B00CFD7EC /* S3CloudClient.xcdatamodeld in Sources */,
+				1B99B011218C6AB900CFD7EC /* Utilities.swift in Sources */,
+				1BF4D539218F153F00D86D9A /* ProcessFingerprintsOperation.swift in Sources */,
+				1B99AFFA218B5B8E00CFD7EC /* CloudHandler.swift in Sources */,
+				1B99AFF8218B5AE000CFD7EC /* LibraryAPI.swift in Sources */,
+				1B99B006218C5FC600CFD7EC /* Element+CoreDataProperties.swift in Sources */,
+				1BF4D537218E1B1D00D86D9A /* DownloadAssetsOperation.swift in Sources */,
+				1B99B005218C5FC600CFD7EC /* Element+CoreDataClass.swift in Sources */,
+				1B99AFCD218B5A3B00CFD7EC /* ViewController.swift in Sources */,
+				1B99AFCB218B5A3B00CFD7EC /* AppDelegate.swift in Sources */,
+				1B99AFF4218B5AA900CFD7EC /* FileHandler.swift in Sources */,
+				1BF4D540218F2DD500D86D9A /* TableViewCell.swift in Sources */,
+				1B99B00E218C648700CFD7EC /* Extensions.swift in Sources */,
+				1B99AFFC218B5D3F00CFD7EC /* Constants.swift in Sources */,
+				1BF4D532218C89A900D86D9A /* BasicOperation.swift in Sources */,
+				1B99AFFF218B636500CFD7EC /* HelperClasses.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B99AFDA218B5A3D00CFD7EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B99AFE3218B5A3D00CFD7EC /* S3CloudClientTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1B99AFE0218B5A3D00CFD7EC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1B99AFC6218B5A3B00CFD7EC /* S3CloudClient */;
+			targetProxy = 1B99AFDF218B5A3D00CFD7EC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1B99AFCE218B5A3B00CFD7EC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B99AFCF218B5A3B00CFD7EC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1B99AFD6218B5A3D00CFD7EC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B99AFD7218B5A3D00CFD7EC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		1BF4D53C218F25D400D86D9A /* TableViewCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1BF4D53D218F25D500D86D9A /* Base */,
+			);
+			name = TableViewCell.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1B99AFE5218B5A3D00CFD7EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1B99AFE6218B5A3D00CFD7EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1B99AFE8218B5A3D00CFD7EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04E6D9C0B21EF016015014F3 /* Pods-S3CloudClient.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P2EQM7YAFH;
+				INFOPLIST_FILE = S3CloudClient/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.vormbrock.S3CloudClient;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1B99AFE9218B5A3D00CFD7EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 811867314BD5AA1C63A6A85F /* Pods-S3CloudClient.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P2EQM7YAFH;
+				INFOPLIST_FILE = S3CloudClient/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.vormbrock.S3CloudClient;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		1B99AFEB218B5A3D00CFD7EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 54FEFA2E5820AA89B037B724 /* Pods-S3CloudClientTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P2EQM7YAFH;
+				INFOPLIST_FILE = S3CloudClientTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.vormbrock.S3CloudClientTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/S3CloudClient.app/S3CloudClient";
+			};
+			name = Debug;
+		};
+		1B99AFEC218B5A3D00CFD7EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EE8DF28B19F54622EB448E74 /* Pods-S3CloudClientTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P2EQM7YAFH;
+				INFOPLIST_FILE = S3CloudClientTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.vormbrock.S3CloudClientTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/S3CloudClient.app/S3CloudClient";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1B99AFC2218B5A3B00CFD7EC /* Build configuration list for PBXProject "S3CloudClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B99AFE5218B5A3D00CFD7EC /* Debug */,
+				1B99AFE6218B5A3D00CFD7EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1B99AFE7218B5A3D00CFD7EC /* Build configuration list for PBXNativeTarget "S3CloudClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B99AFE8218B5A3D00CFD7EC /* Debug */,
+				1B99AFE9218B5A3D00CFD7EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1B99AFEA218B5A3D00CFD7EC /* Build configuration list for PBXNativeTarget "S3CloudClientTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B99AFEB218B5A3D00CFD7EC /* Debug */,
+				1B99AFEC218B5A3D00CFD7EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1B99AFD1218B5A3B00CFD7EC /* S3CloudClient.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1B99AFD2218B5A3B00CFD7EC /* S3CloudClient.xcdatamodel */,
+			);
+			currentVersion = 1B99AFD2218B5A3B00CFD7EC /* S3CloudClient.xcdatamodel */;
+			path = S3CloudClient.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 1B99AFBF218B5A3B00CFD7EC /* Project object */;
+}

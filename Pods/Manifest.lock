@@ -1,0 +1,32 @@
+PODS:
+  - AWSCore (2.6.31)
+  - AWSS3 (2.6.31):
+    - AWSCore (= 2.6.31)
+  - CircleProgressView (1.1.3)
+  - SnapKit (4.0.1)
+  - SwiftSpinner (1.5.0)
+
+DEPENDENCIES:
+  - AWSS3
+  - CircleProgressView (~> 1.0)
+  - SnapKit (~> 4.0)
+  - SwiftSpinner (~> 1.5.0)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AWSCore
+    - AWSS3
+    - CircleProgressView
+    - SnapKit
+    - SwiftSpinner
+
+SPEC CHECKSUMS:
+  AWSCore: c7abfb87ef802d1c4b5dd56db64ac8b4a7823ef0
+  AWSS3: 5647e89f9ac8e7033f3e5507dbb3eccc37f82b75
+  CircleProgressView: 66e4d663a2bc7a9086e37b518868be923cd0a23a
+  SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
+  SwiftSpinner: 4c058c7a1d6b444dd2e1d70988ead40783097133
+
+PODFILE CHECKSUM: 033a12ee13dcfa5877b7bc48c9bd84652a13b24c
+
+COCOAPODS: 1.5.0

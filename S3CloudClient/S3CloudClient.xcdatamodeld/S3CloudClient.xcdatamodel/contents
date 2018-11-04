@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Asset" representedClassName="Asset" syncable="YES">
+        <attribute name="actual_sha256" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desired_sha256" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isCorrupt" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="relativeFilePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="element" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Element" inverseName="assets" inverseEntity="Element" syncable="YES"/>
+    </entity>
+    <entity name="Element" representedClassName="Element" syncable="YES">
+        <attribute name="alias" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fileName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="assets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Asset" inverseName="element" inverseEntity="Asset" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Asset" positionX="-54" positionY="-9" width="128" height="135"/>
+        <element name="Element" positionX="-63" positionY="-18" width="128" height="105"/>
+    </elements>
+</model>
