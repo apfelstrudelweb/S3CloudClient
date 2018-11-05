@@ -31,6 +31,9 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(showDownloadProgress), name: Notification.Name(progressUpdateNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDownloadEnd), name: Notification.Name(downloadCompletedNotification), object: nil)
+        
         //LibraryAPI.shared.clearDB()  // for test purposes only
         
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: cellReuseIdentifier)
@@ -57,9 +60,8 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
             
             do {
                 try LibraryAPI.shared.updateCoreDataWithJSON()
-                try LibraryAPI.shared.downloadAssets()
-                try LibraryAPI.shared.processFingerprints()
-                print("**************** remote data fetched ****************")
+                try LibraryAPI.shared.downloadAssets(types: [.png, .srt])
+                print("**************** images and subtitles fetched ****************")
                 try self.fetchedResultsController.performFetch()
                 DispatchQueue.main.async {
                     // GUI staff only in the main thread!
@@ -79,6 +81,61 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
         
     }
     
+    @IBAction func downloaddAllButtonTouched(_ sender: Any) {
+        
+        DispatchQueue.global(qos: .background).async {
+            
+            do {
+                try LibraryAPI.shared.downloadAssets(types: [.mp4])
+                print("**************** videos fetched ****************")
+                try self.fetchedResultsController.performFetch()
+                DispatchQueue.main.async {
+                    // GUI staff only in the main thread!
+                    self.tableView.reloadData()
+                }
+            } catch {
+                print(error)
+                displayAlert(message: error.legibleDescription)
+            }
+        }
+    }
+    
+    @objc func showDownloadEnd(notification: Notification) {
+        
+        guard let userInfo = notification.userInfo,
+            let filename  = userInfo[userInfoFilename] as? String else {
+                print("No userInfo found in notification")
+                return
+        }
+
+        DispatchQueue.main.async {
+            
+            guard let index = Element.getIndex(of: filename, inContext: self.persistencyManager.managedObjectContext) else { return }
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? TableViewCell {
+                
+                cell.hideAllControls()
+            }
+        }
+    }
+    
+    // MARK: ProgressUpdateNotification
+    @objc func showDownloadProgress(notification: Notification) {
+        
+        guard let userInfo = notification.userInfo,
+            let progress  = userInfo[userInfoProgress] as? Float,
+            let filename  = userInfo[userInfoFilename] as? String else {
+                print("No userInfo found in notification")
+                return
+        }
+
+        DispatchQueue.main.async {
+            
+            guard let index = Element.getIndex(of: filename, inContext: self.persistencyManager.managedObjectContext) else { return }
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? TableViewCell {
+                cell.showProgress(progress: progress)
+            }
+        }
+    }
     
 }
 
@@ -113,13 +170,26 @@ extension ViewController: UITableViewDelegate {
         let fileURL = fileHandler.getAbsolutePathURL(from: relativeFilePath)
         
         if let imageData = NSData(contentsOf: fileURL) {
-            let image = assetPNG.isCorrupt ? UIImage(named: "placeholder") : UIImage(data: imageData as Data)
+            let image = assetPNG.isCorrupt ? UIImage(named: "placeholderCorrupt") : UIImage(data: imageData as Data)
             cell.videoImageView.image = image
         } else {
-            cell.videoImageView.image = UIImage(named: "placeholder")
+            cell.videoImageView.image = UIImage(named: "placeholderNoData")
         }
         
         cell.videoLabel.text = element.fileName
+        
+        // display if video is already downloaded or not
+        guard let assets = element.assets else {
+            return cell
+        }
+        let mp4 = assets.first { ($0 as! Asset).type == AssetType.mp4.rawValue } as? Asset
+        if mp4 != nil && mp4?.relativeFilePath != nil {
+            cell.hideAllControls()
+            
+            if mp4?.isCorrupt == true {
+                cell.videoImageView.image = UIImage(named: "placeholderCorrupt")
+            }
+        }
         
         return cell
     }

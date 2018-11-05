@@ -44,5 +44,22 @@ class TableViewCell: UITableViewCell {
         return indexPath
     }
     
+    func showProgress(progress: Float) {
+        circleProgressView.progress = Double(progress)
+        downloadButton.setImage(nil, for: .normal)
+        
+        circleProgressView.alpha = 1.0
+        progressLabel.text = ""// "\(roundedProgress)%"
+        downloadButton.setTitle("", for: .normal)
+    }
+    
+    func hideAllControls() {
+        circleProgressView.alpha = 0.0
+        downloadButton.setImage(nil, for: .normal)
+        progressLabel.text = ""
+        videoImageView?.alpha = 1.0
+        downloadButton.setTitle("", for: .normal)
+    }
+    
 }
 

@@ -40,6 +40,9 @@
                                 <rect key="frame" x="187.5" y="30" width="187.5" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Download All"/>
+                                <connections>
+                                    <action selector="downloaddAllButtonTouched:" destination="ThA-6N-pMx" eventType="touchUpInside" id="smM-RL-KBB"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWn-m1-mkV">
                                 <rect key="frame" x="0.0" y="30" width="187.5" height="36"/>

@@ -13,6 +13,24 @@ import CoreData
 @objc(Element)
 public class Element: NSManagedObject {
     
+    class func getIndex(of fileName: String, inContext context:NSManagedObjectContext) -> Int? {
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
+        fetchRequest.predicate = NSPredicate(format: "fileName == %@", fileName)
+        
+        do {
+            
+            if let fetchedElement = try context.fetch(fetchRequest).first as? Element {
+                return Int(fetchedElement.id) - 1 // index must start from 0
+            }
+            throw CoreDataError.noResult(reason: "no assets could be found in CoreData")
+            
+        } catch {
+            print(error)
+        }
+        return nil
+    }
+    
     class func getAllElements(inContext context:NSManagedObjectContext) -> [String]? {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")

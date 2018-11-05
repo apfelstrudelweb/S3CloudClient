@@ -29,10 +29,15 @@ public extension String {
     }
     
     internal func assetType() -> AssetType {
-        if self == "mp4" { return .mp4 }
-        else if self == "png" { return .png }
-        else if self == "srt" { return .srt }
+        if self.contains("mp4") { return .mp4 }
+        else if self.contains("png") { return .png }
+        else if self.contains("srt") { return .srt }
         else { return .unknown }
+    }
+    
+    func fileNameFromPath() -> String {
+        let fileNameWithExtension = self.components(separatedBy: "/").last ?? "unknown."
+        return fileNameWithExtension.components(separatedBy: ".").first ?? ""
     }
 }
 

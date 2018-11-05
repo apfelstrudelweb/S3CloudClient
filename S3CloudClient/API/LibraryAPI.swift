@@ -26,7 +26,6 @@ final class LibraryAPI: NSObject {
     private var timestampHasChanged: Bool = true
     
     static let shared = LibraryAPI()
-    private let types = [AssetType.png, AssetType.srt] // asset types to be downloaded and processed
     
     // Helper classes
     private let persistencyManager = PersistencyManager()
@@ -35,9 +34,7 @@ final class LibraryAPI: NSObject {
     
     // Operations
     private let queue: OperationQueue = OperationQueue()
-//    private lazy var processJSONOperation = ProcessJSONOperation(context: persistencyManager.managedObjectContext)
-//    private lazy var downloadAssetsOperation = DownloadAssetsOperation(types: types, context: persistencyManager.managedObjectContext)
-//    private lazy var processFingerprintsOperation = ProcessFingerprintsOperation(types: types, context: persistencyManager.managedObjectContext)
+
     
     // Mark: for testing only
     func clearDB() {
@@ -56,27 +53,16 @@ final class LibraryAPI: NSObject {
         throw error
     }
     
-    // Mark: download assets from Cloud
-    func downloadAssets() throws {
+    // Mark: download assets from Cloud and generate fingerprints
+    func downloadAssets(types: [AssetType]) throws {
         
-        if !self.timestampHasChanged { return }
+        // mp4 must always be dwonloadable or renewable
+        if types.first != .mp4 && !self.timestampHasChanged { return }
 
         let downloadAssetsOperation = DownloadAssetsOperation(types: types, context: persistencyManager.managedObjectContext)
         queue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
         guard let error = downloadAssetsOperation.error else { return }
         throw error
     }
-    
-    // Mark: generate local fingerprints and put them into CoreData
-    func processFingerprints() throws {
-        
-        if !self.timestampHasChanged { return }
-        
-        let processFingerprintsOperation = ProcessFingerprintsOperation(types: types, context: persistencyManager.managedObjectContext)
-        queue.addOperations([processFingerprintsOperation], waitUntilFinished: true)
-        guard let error = processFingerprintsOperation.error else { return }
-        throw error
-    }
-    
-    
+
 }

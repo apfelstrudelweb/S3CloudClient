@@ -15,3 +15,8 @@ enum AssetType: Int16 {
     case unknown = -1
 }
 
+let progressUpdateNotification = "ProgressUpdateNotification"
+let downloadCompletedNotification = "DownloadCompletedNotification"
+
+let userInfoProgress = "progress"
+let userInfoFilename = "filename"
