@@ -12,10 +12,11 @@
         <attribute name="alias" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fileName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="previewImagePresent" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="assets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Asset" inverseName="element" inverseEntity="Asset" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Asset" positionX="-54" positionY="-9" width="128" height="135"/>
-        <element name="Element" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="Asset" positionX="-155.953125" positionY="-40.078125" width="128" height="135"/>
+        <element name="Element" positionX="-359.64453125" positionY="-25.99609375" width="128" height="120"/>
     </elements>
 </model>

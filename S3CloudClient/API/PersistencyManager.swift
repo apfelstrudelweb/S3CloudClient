@@ -15,7 +15,7 @@ class PersistencyManager: NSObject {
     let modelname = "S3CloudClient"
     
     func saveContext () {
-        if managedObjectContext.hasChanges {
+        //if managedObjectContext.hasChanges {
             do {
                 try managedObjectContext.save()
             } catch {
@@ -25,7 +25,7 @@ class PersistencyManager: NSObject {
                 NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
                 abort()
             }
-        }
+        //}
     }
     
     func clearDB() {

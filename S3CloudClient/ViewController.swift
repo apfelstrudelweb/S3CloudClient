@@ -11,22 +11,27 @@ import CoreData
 
 let cellReuseIdentifier = "elementCell"
 
-class ViewController: UIViewController, NSFetchedResultsControllerDelegate, VideoCellDelegate {
+class ViewController: UIViewController, VideoCellDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private let persistencyManager = PersistencyManager()
+    private let persistencyManager = PersistencyManager.shared
+    private let libraryAPI = LibraryAPI.shared
+    
+    
     private let fileHandler = FileHandler()
     private let refreshControl = UIRefreshControl()
     
-    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Element> = {
+    fileprivate lazy var fetchedResultsControllerElement: NSFetchedResultsController<Element> = {
         
         let fetchRequest = NSFetchRequest<Element> (entityName: "Element")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "previewImagePresent == true") // otherwise it doesn't make sense to display video in table view
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: persistencyManager.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         return fetchedResultsController
     }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +54,12 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate, Vide
             self.tableView.addSubview(refreshControl)
         }
         
+        do {
+            try self.fetchedResultsControllerElement.performFetch()
+        } catch {
+            print(error)
+        }
+        
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         fetchRemoteData()
     }
@@ -62,7 +73,7 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate, Vide
             LibraryAPI.shared.updateCoreDataWithJSON()
             LibraryAPI.shared.downloadAssets(types: [.png, .srt])
             
-            self.updateGUI()
+            //self.updateGUI()
         }
     }
     
@@ -86,6 +97,7 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate, Vide
     // MARK: VideoCellDelegate
     func downloadButtonTouched(indexPath: IndexPath) {
         
+        // TODO: avoid multiple downloads of the same video
         DispatchQueue.global(qos: .background).async {
             
             LibraryAPI.shared.downloadMP4(index: indexPath.row)
@@ -105,7 +117,7 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate, Vide
         
         DispatchQueue.main.async {
             
-            guard let index = Element.getIndex(of: filename, inContext: self.persistencyManager.managedObjectContext) else { return }
+            guard let index = Element.getIndex(of: filename) else { return }
             if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? TableViewCell {
                 
                 cell.hideAllControls()
@@ -125,16 +137,24 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate, Vide
         
         DispatchQueue.main.async {
             
-            guard let index = Element.getIndex(of: filename, inContext: self.persistencyManager.managedObjectContext) else { return }
+            guard let index = Element.getIndex(of: filename) else { return }
             if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? TableViewCell {
                 cell.showProgress(progress: progress)
             }
         }
     }
     
+    @objc func managedObjectContextDidSave(notification: Notification) {
+        
+        DispatchQueue.main.async {
+            print("************* did save ***************")
+        }
+    }
+    
+    
     fileprivate func updateGUI() {
         do {
-            try self.fetchedResultsController.performFetch()
+            try self.fetchedResultsControllerElement.performFetch()
             DispatchQueue.main.async {
                 // GUI staff only in the main thread!
                 self.tableView.reloadData()
@@ -146,17 +166,43 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate, Vide
     
 }
 
+extension ViewController: NSFetchedResultsControllerDelegate {
+    
+    static var rows = 0
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        DispatchQueue.main.async {
+            self.tableView.beginUpdates()
+        }
+    }
+    
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+
+        DispatchQueue.main.async {
+            //self.tableView.reloadData()
+            self.tableView.insertRows(at: [newIndexPath!], with: .fade)
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        DispatchQueue.main.async {
+            self.tableView.endUpdates()
+        }
+    }
+}
+
 extension ViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if let sections = fetchedResultsController.sections {
+        if let sections = fetchedResultsControllerElement.sections {
             return sections.count
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let objects = fetchedResultsController.fetchedObjects {
+        if let objects = fetchedResultsControllerElement.fetchedObjects {
             return objects.count
         }
         return 0
@@ -169,7 +215,7 @@ extension ViewController: UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! TableViewCell
         
-        let element = fetchedResultsController.object(at: indexPath)
+        let element = fetchedResultsControllerElement.object(at: indexPath)
         guard let assetPNG: Asset = element.assets!.first(where: { ($0 as! Asset).type == AssetType.png.rawValue }) as? Asset, let relativeFilePath = assetPNG.relativeFilePath else {
             return cell
         }
@@ -178,9 +224,9 @@ extension ViewController: UITableViewDelegate {
         
         if let imageData = NSData(contentsOf: fileURL) {
             let image = assetPNG.isCorrupt ? UIImage(named: "placeholderCorrupt") : UIImage(data: imageData as Data)
-            cell.videoImageView.image = image
+            cell.imageView!.image = image
         } else {
-            cell.videoImageView.image = UIImage(named: "placeholderNoData")
+            cell.imageView!.image = UIImage(named: "placeholderNoData")
         }
         
         cell.videoLabel.text = element.fileName
@@ -192,11 +238,15 @@ extension ViewController: UITableViewDelegate {
         let mp4 = assets.first { ($0 as! Asset).type == AssetType.mp4.rawValue } as? Asset
         if mp4 != nil && mp4?.relativeFilePath != nil {
             cell.hideAllControls()
+            cell.imageView?.alpha = 1.0
             
             if mp4?.isCorrupt == true {
-                cell.videoImageView.image = UIImage(named: "placeholderCorrupt")
+                cell.imageView!.image = UIImage(named: "placeholderCorrupt")
             }
+        } else {
+            cell.imageView?.alpha = 0.8
         }
+ 
         // for dwonloading single videos
         cell.delegate = self
         
@@ -205,6 +255,6 @@ extension ViewController: UITableViewDelegate {
     
     // reset images from reusable cell after scroll -> otherwise we get glitches
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        (cell as! TableViewCell).videoImageView.image = nil
+        (cell as! TableViewCell).imageView!.image = nil
     }
 }

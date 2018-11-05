@@ -13,8 +13,9 @@ import CoreData
 @objc(Element)
 public class Element: NSManagedObject {
     
-    class func getIndex(of fileName: String, inContext context:NSManagedObjectContext) -> Int? {
+    class func getIndex(of fileName: String) -> Int? {
         
+        let context = PersistencyManager.shared.managedObjectContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
         fetchRequest.predicate = NSPredicate(format: "fileName == %@", fileName)
         
@@ -31,8 +32,9 @@ public class Element: NSManagedObject {
         return nil
     }
     
-    class func getAllElements(inContext context:NSManagedObjectContext) -> [String]? {
+    class func getAllElements() -> [String]? {
         
+        let context = PersistencyManager.shared.managedObjectContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
         var elements = [String]()
         
@@ -54,9 +56,26 @@ public class Element: NSManagedObject {
         return elements
     }
     
+    class func setDownloadedFlag(fileName: String) {
+        
+        let context = PersistencyManager.shared.managedObjectContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
+        fetchRequest.predicate = NSPredicate(format: "fileName == %@", fileName)
+        
+        do {
+            
+            if let fetchedElement = try context.fetch(fetchRequest).first as? Element {
+                fetchedElement.previewImagePresent = true
+                PersistencyManager.shared.saveContext()
+            }
+            
+        } catch {
+            print(error)
+        }
+    }
     
-    class func generateFromJson(element: ElementDecodable,
-                                inContext context:NSManagedObjectContext) {
+    
+    class func generateFromJson(element: ElementDecodable) {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
         fetchRequest.predicate = NSPredicate(format: "fileName == %@", element.fileName)
@@ -64,16 +83,20 @@ public class Element: NSManagedObject {
         var elementCD: Element?
         var assetsCD: NSSet?
         
+        let context = PersistencyManager.shared.managedObjectContext
+        
         do {
             
             if let fetchedElement = try (context.fetch(fetchRequest) as! [Element]).first {
                 elementCD = fetchedElement
                 assetsCD = elementCD?.assets
             } else {
+//                let entity = NSEntityDescription.entity(forEntityName: "Element", in: context)
+//                elementCD = Element(entity: entity!, insertInto: context)
                 elementCD = Element(context: context)
-                assetsCD = [Asset.init(type: AssetType.mp4.rawValue, context: context),
-                            Asset.init(type: AssetType.png.rawValue, context: context),
-                            Asset.init(type: AssetType.srt.rawValue, context: context)]
+                assetsCD = [Asset.init(type: AssetType.mp4.rawValue),
+                            Asset.init(type: AssetType.png.rawValue),
+                            Asset.init(type: AssetType.srt.rawValue)]
             }
             
             let assetMP4 = assetsCD?.first { ($0 as! Asset).type == AssetType.mp4.rawValue } as? Asset
@@ -96,7 +119,8 @@ public class Element: NSManagedObject {
             elementCD?.alias = element.alias
             elementCD?.assets = assetsCD
             
-            try context.save()
+            //try context.save()
+            PersistencyManager.shared.saveContext()
         } catch {
             print(error)
         }

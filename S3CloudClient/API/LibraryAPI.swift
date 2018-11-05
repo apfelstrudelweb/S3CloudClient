@@ -23,14 +23,16 @@ import UIKit
  */
 final class LibraryAPI: NSObject {
     
+
     private var timestampHasChanged: Bool = true
     
     static let shared = LibraryAPI()
     
     // Helper classes
-    private let persistencyManager = PersistencyManager()
+    private let persistencyManager = PersistencyManager.shared // Singelton due to one unique ManagedObjectContext
     private let fileHandler = FileHandler()
     private let cloudHandler = CloudHandler()
+    
     
     // Operations
     private let queue: OperationQueue = OperationQueue()
@@ -45,11 +47,12 @@ final class LibraryAPI: NSObject {
     // Mark: download JSON data from Cloud
     func updateCoreDataWithJSON()  {
 
-            let processJSONOperation = ProcessJSONOperation(context: self.persistencyManager.managedObjectContext)
+            let processJSONOperation = ProcessJSONOperation(context: persistencyManager.managedObjectContext)
             self.queue.addOperations([processJSONOperation], waitUntilFinished: true)
             self.timestampHasChanged = processJSONOperation.timestampHasChanged
             guard let error = processJSONOperation.error else { return }
             displayAlert(message: error.legibleDescription)
+        
     }
     
     // Mark: download assets from Cloud and generate fingerprints

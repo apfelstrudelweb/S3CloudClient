@@ -8,6 +8,7 @@
 
 import UIKit
 import CircleProgressView
+import SnapKit
 
 @objc protocol VideoCellDelegate: class {
     @objc optional func downloadButtonTouched(indexPath: IndexPath)
@@ -18,20 +19,35 @@ class TableViewCell: UITableViewCell {
     weak var delegate:VideoCellDelegate?
     
     @IBOutlet weak var circleProgressView: CircleProgressView!
-    @IBOutlet weak var videoImageView: UIImageView!
     @IBOutlet weak var videoLabel: UILabel!
-    @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var downloadButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.downloadButton.imageView?.tintColor = .lightGray
+        self.imageView?.insertSubview(circleProgressView, at: 1)
+        
+        self.circleProgressView.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()//.multipliedBy(0.5)
+            //make.centerY.equalToSuperview()
+        }
+        self.downloadButton.snp.makeConstraints { (make) in
+            make.left.equalTo(self.imageView!.snp.right).offset(10)
+        }
+
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        self.imageView!.isUserInteractionEnabled = true
+        self.imageView!.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        
+        delegate?.downloadButtonTouched!(indexPath: getIndexPath())
     }
     
     @IBAction func downloadButtonTouched(_ sender: Any) {
         
-        self.downloadButton.setTitle("", for: .normal)
         delegate?.downloadButtonTouched!(indexPath: getIndexPath())
     }
     
@@ -49,15 +65,14 @@ class TableViewCell: UITableViewCell {
         downloadButton.setImage(nil, for: .normal)
         
         circleProgressView.alpha = 1.0
-        progressLabel.text = ""// "\(roundedProgress)%"
         downloadButton.setTitle("", for: .normal)
     }
     
     func hideAllControls() {
         circleProgressView.alpha = 0.0
         downloadButton.setImage(nil, for: .normal)
-        progressLabel.text = ""
-        videoImageView?.alpha = 1.0
+        //videoImageView?.alpha = 1.0
+        imageView?.alpha = 1.0
         downloadButton.setTitle("", for: .normal)
     }
     

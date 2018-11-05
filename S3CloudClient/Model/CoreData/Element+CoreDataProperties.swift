@@ -2,7 +2,7 @@
 //  Element+CoreDataProperties.swift
 //  S3CloudClient
 //
-//  Created by Ulrich Vormbrock on 02.11.18.
+//  Created by Ulrich Vormbrock on 05.11.18.
 //  Copyright © 2018 Ulrich Vormbrock. All rights reserved.
 //
 //
@@ -18,8 +18,9 @@ extension Element {
     }
 
     @NSManaged public var alias: String?
-    @NSManaged public var id: Int64
     @NSManaged public var fileName: String?
+    @NSManaged public var id: Int64
+    @NSManaged public var previewImagePresent: Bool
     @NSManaged public var assets: NSSet?
 
 }

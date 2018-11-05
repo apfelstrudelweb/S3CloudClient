@@ -58,7 +58,7 @@ final class DownloadAssetsOperation: BasicOperation {
     fileprivate func  singleDownload(id: Int?) {
         
         guard let id = id,
-            let asset = Asset.getAssetOfTypeMP4(with: id, inContext: self.context),
+            let asset = Asset.getAssetOfTypeMP4(with: id),
             let fileName = asset.element?.fileName else {
             self.finish()
             return
@@ -81,7 +81,7 @@ final class DownloadAssetsOperation: BasicOperation {
     
     fileprivate func multipleDownload(types: [AssetType]?) {
         
-        guard let types = types, let assets = Asset.getAllAssets(of: types, inContext: self.context) else {
+        guard let types = types, let assets = Asset.getAllAssets(of: types) else {
             self.error = CoreDataError.noResult(reason: "No assets could be found from CoreData before downloading them")
             self.finish()
             return
@@ -156,22 +156,29 @@ final class DownloadAssetsOperation: BasicOperation {
             }
             // set local path URL in CoreData
             guard let relativeURL = URL(string: task.key) else { return }
-            Asset.setLocalPath(localPath: relativeURL, inContext: self.context)
+            Asset.setLocalPath(localPath: relativeURL)
             
             // write fingerprint to CoreData
             do {
                 if let sha256 = try self.fileHandler.getSha256(filePath: fileURL) {
                     // 3. write local fingerprint to CoreData
-                    Asset.writeLocalFingerprint(fingerprint: sha256, relativeFilePath: relativeURL, inContext: self.context)
+                    Asset.writeLocalFingerprint(fingerprint: sha256, relativeFilePath: relativeURL)
                 }
             } catch {
                 // TODO: we need to concatenate the possible errors
                 self.error = error
             }
             
+            let fileName = key.fileNameFromPath() // transform "video/pullups.mp4" -> "pullups"
             
-            let fileName = task.key.fileNameFromPath() // transform "video/pullups.mp4" -> "pullups"
-            NotificationCenter.default.post(name: Notification.Name(downloadCompletedNotification), object: nil, userInfo: [userInfoFilename : fileName])
+            if key.assetType() == .mp4 {
+                
+                NotificationCenter.default.post(name: Notification.Name(downloadCompletedNotification), object: nil, userInfo: [userInfoFilename : fileName])
+            } else if key.assetType() == .png {
+                // set downloaded flag in CoreData for the NSFetchedResultsControllerDelegate methods
+                Element.setDownloadedFlag(fileName: fileName)
+            }
+
             completion()
         }
         
