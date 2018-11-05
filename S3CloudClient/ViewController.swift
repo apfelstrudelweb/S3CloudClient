@@ -11,7 +11,7 @@ import CoreData
 
 let cellReuseIdentifier = "elementCell"
 
-class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
+class ViewController: UIViewController, NSFetchedResultsControllerDelegate, VideoCellDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -34,7 +34,7 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showDownloadProgress), name: Notification.Name(progressUpdateNotification), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showDownloadEnd), name: Notification.Name(downloadCompletedNotification), object: nil)
         
-        //LibraryAPI.shared.clearDB()  // for test purposes only
+        LibraryAPI.shared.clearDB()  // for test purposes only
         
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: cellReuseIdentifier)
         self.tableView.tableFooterView = UIView(frame: .zero)
@@ -53,24 +53,16 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
         fetchRemoteData()
     }
     
+    
     fileprivate func fetchRemoteData() {
         
         // do expensive operations in the background thread in order to not block the GUI meanwhile
         DispatchQueue.global(qos: .background).async {
             
-            do {
-                try LibraryAPI.shared.updateCoreDataWithJSON()
-                try LibraryAPI.shared.downloadAssets(types: [.png, .srt])
-                print("**************** images and subtitles fetched ****************")
-                try self.fetchedResultsController.performFetch()
-                DispatchQueue.main.async {
-                    // GUI staff only in the main thread!
-                    self.tableView.reloadData()
-                }
-            } catch {
-                print(error)
-                displayAlert(message: error.legibleDescription)
-            }
+            LibraryAPI.shared.updateCoreDataWithJSON()
+            LibraryAPI.shared.downloadAssets(types: [.png, .srt])
+            
+            self.updateGUI()
         }
     }
     
@@ -85,21 +77,24 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
         
         DispatchQueue.global(qos: .background).async {
             
-            do {
-                try LibraryAPI.shared.downloadAssets(types: [.mp4])
-                print("**************** videos fetched ****************")
-                try self.fetchedResultsController.performFetch()
-                DispatchQueue.main.async {
-                    // GUI staff only in the main thread!
-                    self.tableView.reloadData()
-                }
-            } catch {
-                print(error)
-                displayAlert(message: error.legibleDescription)
-            }
+            LibraryAPI.shared.downloadAssets(types: [.mp4])
+            print("**************** multiple videos fetched ****************")
+            //self.updateGUI()
         }
     }
     
+    // MARK: VideoCellDelegate
+    func downloadButtonTouched(indexPath: IndexPath) {
+        
+        DispatchQueue.global(qos: .background).async {
+            
+            LibraryAPI.shared.downloadMP4(index: indexPath.row)
+            print("**************** single video fetched ****************")
+            //self.updateGUI()
+        }
+    }
+    
+    // MARK: DownloadCompletedNotification
     @objc func showDownloadEnd(notification: Notification) {
         
         guard let userInfo = notification.userInfo,
@@ -107,7 +102,7 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
                 print("No userInfo found in notification")
                 return
         }
-
+        
         DispatchQueue.main.async {
             
             guard let index = Element.getIndex(of: filename, inContext: self.persistencyManager.managedObjectContext) else { return }
@@ -127,13 +122,25 @@ class ViewController: UIViewController, NSFetchedResultsControllerDelegate {
                 print("No userInfo found in notification")
                 return
         }
-
+        
         DispatchQueue.main.async {
             
             guard let index = Element.getIndex(of: filename, inContext: self.persistencyManager.managedObjectContext) else { return }
             if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? TableViewCell {
                 cell.showProgress(progress: progress)
             }
+        }
+    }
+    
+    fileprivate func updateGUI() {
+        do {
+            try self.fetchedResultsController.performFetch()
+            DispatchQueue.main.async {
+                // GUI staff only in the main thread!
+                self.tableView.reloadData()
+            }
+        } catch {
+            print(error)
         }
     }
     
@@ -190,6 +197,8 @@ extension ViewController: UITableViewDelegate {
                 cell.videoImageView.image = UIImage(named: "placeholderCorrupt")
             }
         }
+        // for dwonloading single videos
+        cell.delegate = self
         
         return cell
     }

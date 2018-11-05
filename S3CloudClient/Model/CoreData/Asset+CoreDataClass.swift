@@ -18,6 +18,24 @@ public class Asset: NSManagedObject {
         self.type = type
     }
     
+    class func getAssetOfTypeMP4(with id: Int, inContext context:NSManagedObjectContext) -> Asset? {
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Asset")
+        let predicate1 = NSPredicate(format: "element.id == %d", id)
+        let predicate2 = NSPredicate(format: "type == %d", AssetType.mp4.rawValue)
+        let compound = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate1,predicate2])
+        fetchRequest.predicate = compound
+        
+        do {
+            if let fetchedAsset = try (context.fetch(fetchRequest) as! [Asset]).first {
+                return fetchedAsset
+            }
+        } catch {
+            print(error)
+        }
+        return nil
+    }
+    
     class func getAllAssets(of types: [AssetType], inContext context:NSManagedObjectContext) -> [Asset]? {
         
         var predicates = [NSPredicate]()

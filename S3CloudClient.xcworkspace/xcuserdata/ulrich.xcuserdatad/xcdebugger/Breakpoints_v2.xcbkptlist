@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "S3CloudClient/API/CloudHandler.swift"
-            timestampString = "563109039.347598"
+            timestampString = "563113401.6352119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "S3CloudClient/Operations/ProcessJSONOperation.swift"
-            timestampString = "563109039.347901"
+            timestampString = "563113401.635583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "S3CloudClient/Model/CoreData/Asset+CoreDataClass.swift"
-            timestampString = "563109039.348127"
+            timestampString = "563113401.636176"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "getAllAssets(of:inContext:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "S3CloudClient/Model/CoreData/Asset+CoreDataClass.swift"
-            timestampString = "563109039.348314"
+            timestampString = "563113401.637051"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "writeLocalFingerprint(fingerprint:relativeFilePath:inContext:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -73,13 +73,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "S3CloudClient/Operations/DownloadAssetsOperation.swift"
-            timestampString = "563109039.348377"
+            filePath = "S3CloudClient/API/LibraryAPI.swift"
+            timestampString = "563113401.637454"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "main()"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "downloadAssets(types:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "S3CloudClient/API/LibraryAPI.swift"
+            timestampString = "563113401.63808"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "updateCoreDataWithJSON()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

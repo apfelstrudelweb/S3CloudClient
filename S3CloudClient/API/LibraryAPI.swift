@@ -43,26 +43,34 @@ final class LibraryAPI: NSObject {
     }
     
     // Mark: download JSON data from Cloud
-    func updateCoreDataWithJSON() throws {
-        
-        let processJSONOperation = ProcessJSONOperation(context: persistencyManager.managedObjectContext)
-        queue.addOperations([processJSONOperation], waitUntilFinished: true)
-        self.timestampHasChanged = processJSONOperation.timestampHasChanged
-        
-        guard let error = processJSONOperation.error else { return }
-        throw error
+    func updateCoreDataWithJSON()  {
+
+            let processJSONOperation = ProcessJSONOperation(context: self.persistencyManager.managedObjectContext)
+            self.queue.addOperations([processJSONOperation], waitUntilFinished: true)
+            self.timestampHasChanged = processJSONOperation.timestampHasChanged
+            guard let error = processJSONOperation.error else { return }
+            displayAlert(message: error.legibleDescription)
     }
     
     // Mark: download assets from Cloud and generate fingerprints
-    func downloadAssets(types: [AssetType]) throws {
+    func downloadAssets(types: [AssetType]) {
         
-        // mp4 must always be dwonloadable or renewable
         if types.first != .mp4 && !self.timestampHasChanged { return }
 
-        let downloadAssetsOperation = DownloadAssetsOperation(types: types, context: persistencyManager.managedObjectContext)
+            // mp4 must always be downloadable or renewable
+            let downloadAssetsOperation = DownloadAssetsOperation(types: types, context: self.persistencyManager.managedObjectContext)
+            self.queue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
+            guard let error = downloadAssetsOperation.error else { return }
+            displayAlert(message: error.legibleDescription)
+    }
+    
+    func downloadMP4(index: Int) {
+        
+        let id = index + 1 // video ids start at 1
+        let downloadAssetsOperation = DownloadAssetsOperation(id: id, context: persistencyManager.managedObjectContext)
         queue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
         guard let error = downloadAssetsOperation.error else { return }
-        throw error
+        displayAlert(message: error.legibleDescription)
     }
 
 }

@@ -30,18 +30,59 @@ final class DownloadAssetsOperation: BasicOperation {
     private let fileHandler = FileHandler()
     
     private var context: NSManagedObjectContext
-    private var types: [AssetType]
+    private var types: [AssetType]?
+    private var id: Int?
     
-    
+    // for multiple downloads
     init(types: [AssetType], context: NSManagedObjectContext) {
         self.context = context
         self.types = types
     }
     
+    // for single download
+    init(id: Int, context: NSManagedObjectContext) {
+        self.context = context
+        self.id = id
+    }
+    
+    
     override func main() {
         
-        guard let assets = Asset.getAllAssets(of: types, inContext: self.context) else {
-            self.error = CoreDataError.noResult(reason: "no assets could be found from CoreData before downloading them")
+        if types != nil {
+            multipleDownload(types: types)
+        } else if id != nil {
+            singleDownload(id: id)
+        }
+    }
+    
+    fileprivate func  singleDownload(id: Int?) {
+        
+        guard let id = id,
+            let asset = Asset.getAssetOfTypeMP4(with: id, inContext: self.context),
+            let fileName = asset.element?.fileName else {
+            self.finish()
+            return
+        }
+
+        // get s.th. like "file:... CoreSimulator/Devices/9BB6BF.../.../Documents/subtitle/Barren.srt"
+        guard let targetDownloadURL = fileHandler.getTargetDownloadURL(filename: fileName, type: .mp4) else {
+            self.error = FileError.documentsDirNotExisting(reason: "Target Download URL for asset '\(fileName)' does not exist")
+            self.finish()
+            return
+        }
+        
+        let key = fileName.keyForBucket(type: .mp4)
+        let transferData = TransferData.init(bucket: "visualbacktrainer", key: key, downloadURL: targetDownloadURL)
+        downloadAsset(data: transferData, completion: {
+            self.finish()
+            return
+        })
+    }
+    
+    fileprivate func multipleDownload(types: [AssetType]?) {
+        
+        guard let types = types, let assets = Asset.getAllAssets(of: types, inContext: self.context) else {
+            self.error = CoreDataError.noResult(reason: "No assets could be found from CoreData before downloading them")
             self.finish()
             return
         }
@@ -74,6 +115,7 @@ final class DownloadAssetsOperation: BasicOperation {
                 // when all files are processed, finish OP
                 if counter == assets.count {
                     self.finish()
+                    return
                 }
             })
         }

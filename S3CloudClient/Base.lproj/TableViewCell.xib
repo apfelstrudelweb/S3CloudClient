@@ -51,7 +51,7 @@
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="downloadButtonTouched:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="EeK-kc-S4E"/>
+                                    <action selector="downloadButtonTouched:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="zyY-oc-llE"/>
                                 </connections>
                             </button>
                         </subviews>
