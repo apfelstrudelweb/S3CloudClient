@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,17 +19,19 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wy2-Fg-teP">
-                        <rect key="frame" x="391" y="48" width="44" height="21.5"/>
+                        <rect key="frame" x="395.5" y="49" width="39.5" height="19.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        </variation>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FCl-Uk-ZF5" customClass="CircleProgressView" customModule="CircleProgressView">
-                        <rect key="frame" x="239" y="23" width="72" height="72"/>
+                        <rect key="frame" x="214.5" y="12" width="94" height="94"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="72" id="B3x-qa-OLw"/>
-                            <constraint firstAttribute="height" constant="72" id="Rm6-4C-WLl"/>
+                            <constraint firstAttribute="width" secondItem="FCl-Uk-ZF5" secondAttribute="height" multiplier="1:1" id="Wof-Lo-1Kw"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="centerFillColor">
@@ -48,10 +50,9 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PEZ-BK-SWe">
-                        <rect key="frame" x="341" y="44" width="40" height="30"/>
+                        <rect key="frame" x="338.5" y="41" width="47" height="35.5"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="MiE-or-hrv"/>
                             <constraint firstAttribute="width" secondItem="PEZ-BK-SWe" secondAttribute="height" multiplier="4:3" id="cVR-Ke-Tf4"/>
                         </constraints>
                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -65,7 +66,9 @@
                 </subviews>
                 <color key="backgroundColor" red="0.1529663205" green="0.40549850459999998" blue="0.73860585690000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
+                    <constraint firstItem="FCl-Uk-ZF5" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.8" id="5z8-jo-x24"/>
                     <constraint firstItem="FCl-Uk-ZF5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" priority="250" constant="50" id="CfW-3N-WN0"/>
+                    <constraint firstItem="PEZ-BK-SWe" firstAttribute="width" secondItem="FCl-Uk-ZF5" secondAttribute="width" multiplier="0.5" id="TQA-7g-4Ud"/>
                     <constraint firstAttribute="trailing" secondItem="wy2-Fg-teP" secondAttribute="trailing" constant="20" id="Yia-se-d6i"/>
                     <constraint firstItem="PEZ-BK-SWe" firstAttribute="leading" secondItem="FCl-Uk-ZF5" secondAttribute="trailing" priority="250" constant="30" id="Z83-b3-o48"/>
                     <constraint firstItem="FCl-Uk-ZF5" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="axJ-db-3Be"/>

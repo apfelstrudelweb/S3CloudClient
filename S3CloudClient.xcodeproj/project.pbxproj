@@ -133,15 +133,11 @@
 				1B99B00F218C6A2F00CFD7EC /* Misc */,
 				1B99AFFD218B633F00CFD7EC /* Model */,
 				1B99AFED218B5A4D00CFD7EC /* API */,
+				1BA5D8FD219231D800D3646D /* Controller */,
+				1BA5D8FC219231B100D3646D /* View */,
 				1B99AFCA218B5A3B00CFD7EC /* AppDelegate.swift */,
-				1B99AFCC218B5A3B00CFD7EC /* ViewController.swift */,
-				1B99AFCE218B5A3B00CFD7EC /* Main.storyboard */,
-				1BF4D53C218F25D400D86D9A /* TableViewCell.xib */,
-				1BF4D53F218F2DD500D86D9A /* TableViewCell.swift */,
 				1B99AFD4218B5A3D00CFD7EC /* Assets.xcassets */,
-				1B99AFD6218B5A3D00CFD7EC /* LaunchScreen.storyboard */,
 				1B99AFD9218B5A3D00CFD7EC /* Info.plist */,
-				1B99AFD1218B5A3B00CFD7EC /* S3CloudClient.xcdatamodeld */,
 			);
 			path = S3CloudClient;
 			sourceTree = "<group>";
@@ -179,6 +175,7 @@
 		1B99B000218C5FAD00CFD7EC /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				1B99AFD1218B5A3B00CFD7EC /* S3CloudClient.xcdatamodeld */,
 				1B99B001218C5FC600CFD7EC /* Element+CoreDataClass.swift */,
 				1B99B002218C5FC600CFD7EC /* Element+CoreDataProperties.swift */,
 				1B99B003218C5FC600CFD7EC /* Asset+CoreDataClass.swift */,
@@ -206,6 +203,25 @@
 				1BF4D536218E1B1D00D86D9A /* DownloadAssetsOperation.swift */,
 			);
 			path = Operations;
+			sourceTree = "<group>";
+		};
+		1BA5D8FC219231B100D3646D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1B99AFD6218B5A3D00CFD7EC /* LaunchScreen.storyboard */,
+				1B99AFCE218B5A3B00CFD7EC /* Main.storyboard */,
+				1BF4D53C218F25D400D86D9A /* TableViewCell.xib */,
+				1BF4D53F218F2DD500D86D9A /* TableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1BA5D8FD219231D800D3646D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1B99AFCC218B5A3B00CFD7EC /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		1BF4D535218CB08300D86D9A /* Superclass */ = {

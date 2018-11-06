@@ -43,8 +43,8 @@ class ViewController: UIViewController, VideoCellDelegate {
         
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: cellReuseIdentifier)
         self.tableView.tableFooterView = UIView(frame: .zero)
-        self.tableView.rowHeight = 90.0
-        self.tableView.estimatedRowHeight = 90.0
+        self.tableView.rowHeight = self.view.frame.size.width / 5.0 // dynamic height - important for small devices such as iPhone SE
+        //self.tableView.estimatedRowHeight = 90.0
         self.tableView.allowsSelection = false
         self.tableView.delegate = self
         
