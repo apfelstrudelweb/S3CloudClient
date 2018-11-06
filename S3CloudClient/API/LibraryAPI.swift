@@ -24,7 +24,7 @@ import UIKit
 final class LibraryAPI: NSObject {
     
 
-    private var timestampHasChanged: Bool = true
+    private var newJSONTimestamp: Bool = false
     
     static let shared = LibraryAPI()
     
@@ -39,41 +39,48 @@ final class LibraryAPI: NSObject {
 
     
     // Mark: for testing only
-    func clearDB() {
-        persistencyManager.clearDB()
+    func clearLocalFilesAndSettings() {
+        fileHandler.removeAllFiles()
+        persistencyManager.clearSQLite()
         UserDefaults.standard.set(nil, forKey: "jsonModificationDate")
     }
     
     // Mark: download JSON data from Cloud
     func updateCoreDataWithJSON()  {
-
+        
+        // avoid multiple calls by "pull to refresh"
+        if self.queue.operationCount == 0 {
             let processJSONOperation = ProcessJSONOperation(context: persistencyManager.managedObjectContext)
             self.queue.addOperations([processJSONOperation], waitUntilFinished: true)
-            self.timestampHasChanged = processJSONOperation.timestampHasChanged
+            self.newJSONTimestamp = processJSONOperation.newJSONTimestamp
             guard let error = processJSONOperation.error else { return }
             displayAlert(message: error.legibleDescription)
-        
+        }
     }
     
     // Mark: download assets from Cloud and generate fingerprints
     func downloadAssets(types: [AssetType]) {
         
-        if types.first != .mp4 && !self.timestampHasChanged { return }
-
-            // mp4 must always be downloadable or renewable
+        if !self.newJSONTimestamp && Element.downloadOfPNGsCompleted() { return }
+        
+        // avoid multiple calls by "pull to refresh"
+        if self.queue.operationCount == 0 {
             let downloadAssetsOperation = DownloadAssetsOperation(types: types, context: self.persistencyManager.managedObjectContext)
             self.queue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
             guard let error = downloadAssetsOperation.error else { return }
             displayAlert(message: error.legibleDescription)
+        }
     }
     
     func downloadMP4(index: Int) {
         
-        let id = index + 1 // video ids start at 1
-        let downloadAssetsOperation = DownloadAssetsOperation(id: id, context: persistencyManager.managedObjectContext)
-        queue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
-        guard let error = downloadAssetsOperation.error else { return }
-        displayAlert(message: error.legibleDescription)
+        if self.queue.operationCount == 0 {
+            let id = index + 1 // video ids start at 1
+            let downloadAssetsOperation = DownloadAssetsOperation(id: id, context: persistencyManager.managedObjectContext)
+            queue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
+            guard let error = downloadAssetsOperation.error else { return }
+            displayAlert(message: error.legibleDescription)
+        }
     }
 
 }

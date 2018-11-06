@@ -28,30 +28,19 @@ class PersistencyManager: NSObject {
         //}
     }
     
-    func clearDB() {
+    func clearSQLite() {
         
-        var fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
+        // Delete only Element objects - due to delete rule "Cascade" in the data model,
+        // the dependent Asset objects are removed as well
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
         fetchRequest.returnsObjectsAsFaults = false
         do {
             let results = try managedObjectContext.fetch(fetchRequest)
             for object in results {
-                guard let objectData = object as? NSManagedObject else {continue}
+                guard let objectData = object as? NSManagedObject else { continue }
                 managedObjectContext.delete(objectData)
-                try managedObjectContext.save()
             }
-        } catch let error {
-            print("Detele all data error :", error)
-        }
-        
-        fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Asset")
-        fetchRequest.returnsObjectsAsFaults = false
-        do {
-            let results = try managedObjectContext.fetch(fetchRequest)
-            for object in results {
-                guard let objectData = object as? NSManagedObject else {continue}
-                managedObjectContext.delete(objectData)
-                try managedObjectContext.save()
-            }
+            try managedObjectContext.save()
         } catch let error {
             print("Detele all data error :", error)
         }
@@ -59,7 +48,7 @@ class PersistencyManager: NSObject {
     
     // MARK: - Core Data stack
     lazy var applicationDocumentsDirectory: URL = {
-        // The directory the application uses to store the Core Data store file. This code uses a directory named "com.andrewcbancroft.Zootastic" in the application's documents Application Support directory.
+        // The directory the application uses to store the Core Data store file. This code uses a directory in the application's documents Application Support directory.
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count-1]
     }()

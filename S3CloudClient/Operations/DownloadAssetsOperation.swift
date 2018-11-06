@@ -71,6 +71,9 @@ final class DownloadAssetsOperation: BasicOperation {
             return
         }
         
+        // we need the subdirectories -> they will be the download targets
+        fileHandler.createSubdirectories(types: [.mp4])
+        
         let key = fileName.keyForBucket(type: .mp4)
         let transferData = TransferData.init(bucket: "visualbacktrainer", key: key, downloadURL: targetDownloadURL)
         downloadAsset(data: transferData, completion: {
@@ -105,9 +108,6 @@ final class DownloadAssetsOperation: BasicOperation {
                 continue
             }
             
-            // always overwrite local files
-            fileHandler.removeFile(targetDownloadURL)
-            
             let key = fileName.keyForBucket(type: type)
             let transferData = TransferData.init(bucket: "visualbacktrainer", key: key, downloadURL: targetDownloadURL)
             downloadAsset(data: transferData, completion: {
@@ -125,6 +125,9 @@ final class DownloadAssetsOperation: BasicOperation {
         
         guard let downloadURL = data.downloadURL, let bucket = data.bucket, let key = data.key else { return }
         var count = 0
+        
+        // always overwrite old file -> AWSS3TransferUtility doesn't do it automatically
+        fileHandler.removeFile(downloadURL)
         
         let expression = AWSS3TransferUtilityDownloadExpression()
         expression.progressBlock = { (task, progress) in DispatchQueue.global(qos: .background).async {
@@ -157,7 +160,7 @@ final class DownloadAssetsOperation: BasicOperation {
             // set local path URL in CoreData
             guard let relativeURL = URL(string: task.key) else { return }
             Asset.setLocalPath(localPath: relativeURL)
-            
+     
             // write fingerprint to CoreData
             do {
                 if let sha256 = try self.fileHandler.getSha256(filePath: fileURL) {
@@ -172,11 +175,10 @@ final class DownloadAssetsOperation: BasicOperation {
             let fileName = key.fileNameFromPath() // transform "video/pullups.mp4" -> "pullups"
             
             if key.assetType() == .mp4 {
-                
-                NotificationCenter.default.post(name: Notification.Name(downloadCompletedNotification), object: nil, userInfo: [userInfoFilename : fileName])
+                Element.setDownloadedFlag(fileName: fileName, type: .mp4)
             } else if key.assetType() == .png {
                 // set downloaded flag in CoreData for the NSFetchedResultsControllerDelegate methods
-                Element.setDownloadedFlag(fileName: fileName)
+                Element.setDownloadedFlag(fileName: fileName, type: .png)
             }
 
             completion()

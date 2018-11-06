@@ -11,6 +11,24 @@ import CommonCrypto
 
 class FileHandler: NSObject {
     
+    func removeAllFiles() {
+        
+        if let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            
+            let types:[AssetType] = [.png, .srt, .mp4]
+            
+            for type in types {
+                // Create subdir such as "image" or "subtitle" if not present
+                do {
+                    let subdirURL = documentURL.appendingPathComponent(type.subdirAsString())
+                    try FileManager.default.removeItem(at: subdirURL)
+                } catch {
+                    print(error)
+                }
+            }
+        }
+    }
+    
     func removeFile(_ url: URL) {
         if FileManager.default.fileExists(atPath: url.path) {
             do {
@@ -20,8 +38,7 @@ class FileHandler: NSObject {
             }
         }
     }
-    
-    
+
     func createSubdirectories(types: [AssetType]) {
         
         if let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {

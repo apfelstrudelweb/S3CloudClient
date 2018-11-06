@@ -41,12 +41,12 @@ final class ProcessJSONOperation: BasicOperation {
     
     //let privateManagedObjectContext: NSManagedObjectContext
     
-    public var timestampHasChanged: Bool
+    public var newJSONTimestamp: Bool
     private var context: NSManagedObjectContext
     
     init(context: NSManagedObjectContext) {
         self.context = context
-        self.timestampHasChanged = true
+        self.newJSONTimestamp = true
         
         // Initialize Managed Object Context
 //        privateManagedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -88,7 +88,7 @@ final class ProcessJSONOperation: BasicOperation {
                     
                     if let savedJsonModificationDate = UserDefaults.standard.object(forKey: "jsonModificationDate") as? String {
                         if savedJsonModificationDate.compare(jsonModificationDate) == .orderedSame {
-                            self.timestampHasChanged = false
+                            self.newJSONTimestamp = false
                             // don't need to download unchanged JSON file
                             self.finish()
                             return

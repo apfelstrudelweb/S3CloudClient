@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SnapKit
 
 let cellReuseIdentifier = "elementCell"
 
@@ -26,7 +27,7 @@ class ViewController: UIViewController, VideoCellDelegate {
         
         let fetchRequest = NSFetchRequest<Element> (entityName: "Element")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "previewImagePresent == true") // otherwise it doesn't make sense to display video in table view
+        fetchRequest.predicate = NSPredicate(format: "previewImagePresent == true") // otherwise it doesn't make sense to display elements in table view
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: persistencyManager.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         return fetchedResultsController
@@ -37,9 +38,8 @@ class ViewController: UIViewController, VideoCellDelegate {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(showDownloadProgress), name: Notification.Name(progressUpdateNotification), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showDownloadEnd), name: Notification.Name(downloadCompletedNotification), object: nil)
         
-        LibraryAPI.shared.clearDB()  // for test purposes only
+        //LibraryAPI.shared.clearSQLite()  // for test purposes only
         
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: cellReuseIdentifier)
         self.tableView.tableFooterView = UIView(frame: .zero)
@@ -73,6 +73,10 @@ class ViewController: UIViewController, VideoCellDelegate {
             LibraryAPI.shared.updateCoreDataWithJSON()
             LibraryAPI.shared.downloadAssets(types: [.png, .srt])
             
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
             //self.updateGUI()
         }
     }
@@ -84,13 +88,18 @@ class ViewController: UIViewController, VideoCellDelegate {
         
     }
     
+    @IBAction func clearAllButtonTouched(_ sender: Any) {
+        
+        LibraryAPI.shared.clearLocalFilesAndSettings()
+        print("**************** all data cleared ****************")
+    }
+    
     @IBAction func downloaddAllButtonTouched(_ sender: Any) {
         
         DispatchQueue.global(qos: .background).async {
             
             LibraryAPI.shared.downloadAssets(types: [.mp4])
-            print("**************** multiple videos fetched ****************")
-            //self.updateGUI()
+            print("**************** multiple videos requested ****************")
         }
     }
     
@@ -101,29 +110,10 @@ class ViewController: UIViewController, VideoCellDelegate {
         DispatchQueue.global(qos: .background).async {
             
             LibraryAPI.shared.downloadMP4(index: indexPath.row)
-            print("**************** single video fetched ****************")
-            //self.updateGUI()
+            print("**************** single video requested ****************")
         }
     }
-    
-    // MARK: DownloadCompletedNotification
-    @objc func showDownloadEnd(notification: Notification) {
-        
-        guard let userInfo = notification.userInfo,
-            let filename  = userInfo[userInfoFilename] as? String else {
-                print("No userInfo found in notification")
-                return
-        }
-        
-        DispatchQueue.main.async {
-            
-            guard let index = Element.getIndex(of: filename) else { return }
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? TableViewCell {
-                
-                cell.hideAllControls()
-            }
-        }
-    }
+
     
     // MARK: ProgressUpdateNotification
     @objc func showDownloadProgress(notification: Notification) {
@@ -144,31 +134,11 @@ class ViewController: UIViewController, VideoCellDelegate {
         }
     }
     
-    @objc func managedObjectContextDidSave(notification: Notification) {
-        
-        DispatchQueue.main.async {
-            print("************* did save ***************")
-        }
-    }
-    
-    
-    fileprivate func updateGUI() {
-        do {
-            try self.fetchedResultsControllerElement.performFetch()
-            DispatchQueue.main.async {
-                // GUI staff only in the main thread!
-                self.tableView.reloadData()
-            }
-        } catch {
-            print(error)
-        }
-    }
-    
 }
 
+// used for dynamically building the tableview:
+// as soon as a PNG is downloaded or updated, add a new row to the tableview
 extension ViewController: NSFetchedResultsControllerDelegate {
-    
-    static var rows = 0
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         DispatchQueue.main.async {
@@ -176,12 +146,20 @@ extension ViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
-    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-
+        
         DispatchQueue.main.async {
-            //self.tableView.reloadData()
-            self.tableView.insertRows(at: [newIndexPath!], with: .fade)
+            
+            switch type {
+            case .insert:
+                self.tableView.insertRows(at: [newIndexPath!], with: .fade)
+            case .delete:
+                self.tableView.deleteRows(at: [indexPath!], with: .fade)
+            case .update:
+                self.tableView.reloadRows(at: [indexPath!], with: .fade)
+            case .move:
+                self.tableView.moveRow(at: indexPath!, to: newIndexPath!)
+            }
         }
     }
     
@@ -211,6 +189,30 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 44.0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.949, green: 0.949, blue: 0.949, alpha: 1.0)
+        let label = UILabel()
+        label.text = "Pull to refresh ..."
+        label.textColor = .lightGray
+        label.textAlignment = .center
+        view.addSubview(label)
+        
+        // center label horizontally and vertically in section header
+        label.snp.makeConstraints { (make) in
+            make.width.equalToSuperview().multipliedBy(0.6)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
+        return view
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! TableViewCell
@@ -231,23 +233,9 @@ extension ViewController: UITableViewDelegate {
         
         cell.videoLabel.text = element.fileName
         
-        // display if video is already downloaded or not
-        guard let assets = element.assets else {
-            return cell
-        }
-        let mp4 = assets.first { ($0 as! Asset).type == AssetType.mp4.rawValue } as? Asset
-        if mp4 != nil && mp4?.relativeFilePath != nil {
-            cell.hideAllControls()
-            cell.imageView?.alpha = 1.0
-            
-            if mp4?.isCorrupt == true {
-                cell.imageView!.image = UIImage(named: "placeholderCorrupt")
-            }
-        } else {
-            cell.imageView?.alpha = 0.8
-        }
- 
-        // for dwonloading single videos
+        cell.showVideoControls(state: !element.videoPresent)
+  
+        // for downloading single videos
         cell.delegate = self
         
         return cell

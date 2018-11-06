@@ -2,7 +2,7 @@
 //  Asset+CoreDataProperties.swift
 //  S3CloudClient
 //
-//  Created by Ulrich Vormbrock on 04.11.18.
+//  Created by Ulrich Vormbrock on 06.11.18.
 //  Copyright © 2018 Ulrich Vormbrock. All rights reserved.
 //
 //
@@ -17,11 +17,11 @@ extension Asset {
         return NSFetchRequest<Asset>(entityName: "Asset")
     }
 
+    @NSManaged public var actual_sha256: String?
+    @NSManaged public var desired_sha256: String?
     @NSManaged public var isCorrupt: Bool
     @NSManaged public var relativeFilePath: String?
-    @NSManaged public var desired_sha256: String?
     @NSManaged public var type: Int16
-    @NSManaged public var actual_sha256: String?
     @NSManaged public var element: Element?
 
 }

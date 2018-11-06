@@ -34,6 +34,9 @@ class TableViewCell: UITableViewCell {
         self.downloadButton.snp.makeConstraints { (make) in
             make.left.equalTo(self.imageView!.snp.right).offset(10)
         }
+        
+
+        self.downloadButton.imageView?.tintColor = .lightGray
 
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
@@ -68,12 +71,13 @@ class TableViewCell: UITableViewCell {
         downloadButton.setTitle("", for: .normal)
     }
     
-    func hideAllControls() {
-        circleProgressView.alpha = 0.0
-        downloadButton.setImage(nil, for: .normal)
-        //videoImageView?.alpha = 1.0
-        imageView?.alpha = 1.0
-        downloadButton.setTitle("", for: .normal)
+    func showVideoControls(state: Bool) {
+        imageView?.alpha = state ? 0.8 : 1.0
+        circleProgressView.alpha = state ? 1.0 : 0.0
+        downloadButton.isEnabled = state
+        let downloadImage = state ? UIImage(named: "downloadSymbol") : UIImage(named: "checkmark")
+        downloadButton.setImage(downloadImage, for: .normal)
+        circleProgressView.progress = 0.0
     }
     
 }

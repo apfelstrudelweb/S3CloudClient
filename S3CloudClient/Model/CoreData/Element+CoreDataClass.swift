@@ -56,7 +56,30 @@ public class Element: NSManagedObject {
         return elements
     }
     
-    class func setDownloadedFlag(fileName: String) {
+    class func downloadOfPNGsCompleted() -> Bool {
+        
+        let context = PersistencyManager.shared.managedObjectContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
+        //fetchRequest.predicate = NSPredicate(format: "previewImagePresent == true")
+        
+        do {
+            
+            if let fetchedElements = try context.fetch(fetchRequest) as? [Element] {
+                
+                for element in fetchedElements {
+                    if element.previewImagePresent == false {
+                        return false
+                    }
+                }
+                return true
+            }
+        } catch {
+            print(error)
+        }
+        return false
+    }
+    
+    class func setDownloadedFlag(fileName: String, type: AssetType) {
         
         let context = PersistencyManager.shared.managedObjectContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
@@ -65,7 +88,16 @@ public class Element: NSManagedObject {
         do {
             
             if let fetchedElement = try context.fetch(fetchRequest).first as? Element {
-                fetchedElement.previewImagePresent = true
+                
+                if type == .png {
+                    if fetchedElement.previewImagePresent == false {
+                        fetchedElement.previewImagePresent = true
+                    }
+                } else if type == .mp4 {
+                    if fetchedElement.videoPresent == false {
+                        fetchedElement.videoPresent = true
+                    }
+                }
                 PersistencyManager.shared.saveContext()
             }
             
@@ -91,8 +123,6 @@ public class Element: NSManagedObject {
                 elementCD = fetchedElement
                 assetsCD = elementCD?.assets
             } else {
-//                let entity = NSEntityDescription.entity(forEntityName: "Element", in: context)
-//                elementCD = Element(entity: entity!, insertInto: context)
                 elementCD = Element(context: context)
                 assetsCD = [Asset.init(type: AssetType.mp4.rawValue),
                             Asset.init(type: AssetType.png.rawValue),
@@ -102,7 +132,7 @@ public class Element: NSManagedObject {
             let assetMP4 = assetsCD?.first { ($0 as! Asset).type == AssetType.mp4.rawValue } as? Asset
             let assetPNG = assetsCD?.first { ($0 as! Asset).type == AssetType.png.rawValue } as? Asset
             let assetSRT = assetsCD?.first { ($0 as! Asset).type == AssetType.srt.rawValue } as? Asset
-            
+  
             assetMP4?.desired_sha256 = element.sha256_mp4
             assetPNG?.desired_sha256 = element.sha256_png
             assetSRT?.desired_sha256 = element.sha256_srt
@@ -118,8 +148,9 @@ public class Element: NSManagedObject {
             elementCD?.fileName = element.fileName
             elementCD?.alias = element.alias
             elementCD?.assets = assetsCD
-            
-            //try context.save()
+            elementCD?.videoPresent = false
+            elementCD?.previewImagePresent = false
+
             PersistencyManager.shared.saveContext()
         } catch {
             print(error)

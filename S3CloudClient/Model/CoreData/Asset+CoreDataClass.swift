@@ -13,10 +13,6 @@ import CoreData
 @objc(Asset)
 public class Asset: NSManagedObject {
     
-//    convenience init(type: Int16, context: NSManagedObjectContext) {
-//        self.init(context: context)
-//        self.type = type
-//    }
     
     convenience init(type: Int16) {
         self.init(context: PersistencyManager.shared.managedObjectContext)
