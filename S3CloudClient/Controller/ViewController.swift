@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import SnapKit
 
-let cellReuseIdentifier = "elementCell"
+let cellReuseIdentifier = "VideoCell"
 
 class ViewController: UIViewController, VideoCellDelegate {
     
@@ -41,7 +41,7 @@ class ViewController: UIViewController, VideoCellDelegate {
         
         //LibraryAPI.shared.clearSQLite()  // for test purposes only
         
-        tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: cellReuseIdentifier)
+        self.tableView.register(VideoCell.self)
         self.tableView.tableFooterView = UIView(frame: .zero)
         self.tableView.rowHeight = self.view.frame.size.width / 5.0 // dynamic height - important for small devices such as iPhone SE
         //self.tableView.estimatedRowHeight = 90.0
@@ -72,12 +72,6 @@ class ViewController: UIViewController, VideoCellDelegate {
             
             LibraryAPI.shared.updateCoreDataWithJSON()
             LibraryAPI.shared.downloadAssets(types: [.png, .srt])
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-            
-            //self.updateGUI()
         }
     }
     
@@ -128,7 +122,7 @@ class ViewController: UIViewController, VideoCellDelegate {
         DispatchQueue.main.async {
             
             guard let index = Element.getIndex(of: filename) else { return }
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? TableViewCell {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? VideoCell {
                 cell.showProgress(progress: progress)
             }
         }
@@ -215,25 +209,12 @@ extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! TableViewCell
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as VideoCell
         
         let element = fetchedResultsControllerElement.object(at: indexPath)
-        guard let assetPNG: Asset = element.assets!.first(where: { ($0 as! Asset).type == AssetType.png.rawValue }) as? Asset, let relativeFilePath = assetPNG.relativeFilePath else {
-            return cell
-        }
+        let viewModel = VideoViewModel(element: element)
         
-        let fileURL = fileHandler.getAbsolutePathURL(from: relativeFilePath)
-        
-        if let imageData = NSData(contentsOf: fileURL) {
-            let image = assetPNG.isCorrupt ? UIImage(named: "placeholderCorrupt") : UIImage(data: imageData as Data)
-            cell.imageView!.image = image
-        } else {
-            cell.imageView!.image = UIImage(named: "placeholderNoData")
-        }
-        
-        cell.videoLabel.text = element.fileName
-        
-        cell.showVideoControls(state: !element.videoPresent)
+        cell.setUpWith(viewModel)
   
         // for downloading single videos
         cell.delegate = self
@@ -243,6 +224,6 @@ extension ViewController: UITableViewDelegate {
     
     // reset images from reusable cell after scroll -> otherwise we get glitches
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        (cell as! TableViewCell).imageView!.image = nil
+        (cell as! VideoCell).imageView!.image = nil
     }
 }

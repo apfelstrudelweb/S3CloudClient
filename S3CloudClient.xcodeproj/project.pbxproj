@@ -30,10 +30,12 @@
 		1B99B00E218C648700CFD7EC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B00D218C648700CFD7EC /* Extensions.swift */; };
 		1B99B011218C6AB900CFD7EC /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B010218C6AB900CFD7EC /* Utilities.swift */; };
 		1B99B014218C7BA100CFD7EC /* ProcessJSONOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B013218C7BA100CFD7EC /* ProcessJSONOperation.swift */; };
+		1BA5D927219827F800D3646D /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5D926219827F700D3646D /* Reusable.swift */; };
+		1BA5D92A2198316900D3646D /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5D9292198316900D3646D /* VideoViewModel.swift */; };
 		1BF4D532218C89A900D86D9A /* BasicOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF4D531218C89A900D86D9A /* BasicOperation.swift */; };
 		1BF4D537218E1B1D00D86D9A /* DownloadAssetsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF4D536218E1B1D00D86D9A /* DownloadAssetsOperation.swift */; };
-		1BF4D53E218F25D500D86D9A /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF4D53C218F25D400D86D9A /* TableViewCell.xib */; };
-		1BF4D540218F2DD500D86D9A /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF4D53F218F2DD500D86D9A /* TableViewCell.swift */; };
+		1BF4D53E218F25D500D86D9A /* VideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF4D53C218F25D400D86D9A /* VideoCell.xib */; };
+		1BF4D540218F2DD500D86D9A /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF4D53F218F2DD500D86D9A /* VideoCell.swift */; };
 		42BA86E45D75BE46857EDD25 /* Pods_S3CloudClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D58DA32C067EE4795ECC6546 /* Pods_S3CloudClient.framework */; };
 /* End PBXBuildFile section */
 
@@ -76,10 +78,12 @@
 		1B99B00D218C648700CFD7EC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1B99B010218C6AB900CFD7EC /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		1B99B013218C7BA100CFD7EC /* ProcessJSONOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessJSONOperation.swift; sourceTree = "<group>"; };
+		1BA5D926219827F700D3646D /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		1BA5D9292198316900D3646D /* VideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewModel.swift; sourceTree = "<group>"; };
 		1BF4D531218C89A900D86D9A /* BasicOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicOperation.swift; sourceTree = "<group>"; };
 		1BF4D536218E1B1D00D86D9A /* DownloadAssetsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadAssetsOperation.swift; sourceTree = "<group>"; };
-		1BF4D53D218F25D500D86D9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TableViewCell.xib; sourceTree = "<group>"; };
-		1BF4D53F218F2DD500D86D9A /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		1BF4D53D218F25D500D86D9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/VideoCell.xib; sourceTree = "<group>"; };
+		1BF4D53F218F2DD500D86D9A /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		54FEFA2E5820AA89B037B724 /* Pods-S3CloudClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-S3CloudClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-S3CloudClientTests/Pods-S3CloudClientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		811867314BD5AA1C63A6A85F /* Pods-S3CloudClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-S3CloudClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-S3CloudClient/Pods-S3CloudClient.release.xcconfig"; sourceTree = "<group>"; };
 		D58DA32C067EE4795ECC6546 /* Pods_S3CloudClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_S3CloudClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +169,7 @@
 		1B99AFFD218B633F00CFD7EC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1BA5D9282198314E00D3646D /* ViewModel */,
 				1B99B000218C5FAD00CFD7EC /* CoreData */,
 				1B99AFFE218B636500CFD7EC /* HelperClasses.swift */,
 				1B99B009218C630100CFD7EC /* FileSystem.swift */,
@@ -191,6 +196,7 @@
 				1B99AFFB218B5D3F00CFD7EC /* Constants.swift */,
 				1B99B00D218C648700CFD7EC /* Extensions.swift */,
 				1B99B010218C6AB900CFD7EC /* Utilities.swift */,
+				1BA5D926219827F700D3646D /* Reusable.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -210,8 +216,8 @@
 			children = (
 				1B99AFD6218B5A3D00CFD7EC /* LaunchScreen.storyboard */,
 				1B99AFCE218B5A3B00CFD7EC /* Main.storyboard */,
-				1BF4D53C218F25D400D86D9A /* TableViewCell.xib */,
-				1BF4D53F218F2DD500D86D9A /* TableViewCell.swift */,
+				1BF4D53C218F25D400D86D9A /* VideoCell.xib */,
+				1BF4D53F218F2DD500D86D9A /* VideoCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -222,6 +228,14 @@
 				1B99AFCC218B5A3B00CFD7EC /* ViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		1BA5D9282198314E00D3646D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1BA5D9292198316900D3646D /* VideoViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		1BF4D535218CB08300D86D9A /* Superclass */ = {
@@ -337,7 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B99AFD8218B5A3D00CFD7EC /* LaunchScreen.storyboard in Resources */,
-				1BF4D53E218F25D500D86D9A /* TableViewCell.xib in Resources */,
+				1BF4D53E218F25D500D86D9A /* VideoCell.xib in Resources */,
 				1B99AFD5218B5A3D00CFD7EC /* Assets.xcassets in Resources */,
 				1B99AFD0218B5A3B00CFD7EC /* Main.storyboard in Resources */,
 			);
@@ -431,6 +445,7 @@
 				1B99AFD3218B5A3B00CFD7EC /* S3CloudClient.xcdatamodeld in Sources */,
 				1B99B011218C6AB900CFD7EC /* Utilities.swift in Sources */,
 				1B99AFFA218B5B8E00CFD7EC /* CloudHandler.swift in Sources */,
+				1BA5D927219827F800D3646D /* Reusable.swift in Sources */,
 				1B99AFF8218B5AE000CFD7EC /* LibraryAPI.swift in Sources */,
 				1B99B006218C5FC600CFD7EC /* Element+CoreDataProperties.swift in Sources */,
 				1BF4D537218E1B1D00D86D9A /* DownloadAssetsOperation.swift in Sources */,
@@ -438,7 +453,8 @@
 				1B99AFCD218B5A3B00CFD7EC /* ViewController.swift in Sources */,
 				1B99AFCB218B5A3B00CFD7EC /* AppDelegate.swift in Sources */,
 				1B99AFF4218B5AA900CFD7EC /* FileHandler.swift in Sources */,
-				1BF4D540218F2DD500D86D9A /* TableViewCell.swift in Sources */,
+				1BF4D540218F2DD500D86D9A /* VideoCell.swift in Sources */,
+				1BA5D92A2198316900D3646D /* VideoViewModel.swift in Sources */,
 				1B99B00E218C648700CFD7EC /* Extensions.swift in Sources */,
 				1B99AFFC218B5D3F00CFD7EC /* Constants.swift in Sources */,
 				1BF4D532218C89A900D86D9A /* BasicOperation.swift in Sources */,
@@ -481,12 +497,12 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		1BF4D53C218F25D400D86D9A /* TableViewCell.xib */ = {
+		1BF4D53C218F25D400D86D9A /* VideoCell.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1BF4D53D218F25D500D86D9A /* Base */,
 			);
-			name = TableViewCell.xib;
+			name = VideoCell.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

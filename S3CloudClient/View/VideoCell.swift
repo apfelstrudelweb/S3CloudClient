@@ -14,13 +14,15 @@ import SnapKit
     @objc optional func downloadButtonTouched(indexPath: IndexPath)
 }
 
-class TableViewCell: UITableViewCell {
+class VideoCell: UITableViewCell {
     
     weak var delegate:VideoCellDelegate?
     
     @IBOutlet weak var circleProgressView: CircleProgressView!
     @IBOutlet weak var videoLabel: UILabel!
     @IBOutlet weak var downloadButton: UIButton!
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,6 +44,13 @@ class TableViewCell: UITableViewCell {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         self.imageView!.isUserInteractionEnabled = true
         self.imageView!.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    func setUpWith(_ viewModel: VideoViewModel) {
+        
+        self.videoLabel.text = viewModel.title
+        self.imageView?.image = viewModel.previewImage
+        self.showVideoControls(state: viewModel.showVideoControls)
     }
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
