@@ -13,7 +13,6 @@ import AWSCore
 class CloudHandler: NSObject {
     
     private let fileHandler = FileHandler()
-    let context = PersistencyManager.shared.managedObjectContext
     
     override init() {
         super.init()

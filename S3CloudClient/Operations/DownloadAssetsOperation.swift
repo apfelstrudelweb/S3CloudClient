@@ -26,6 +26,7 @@ import AWSCore
  */
 final class DownloadAssetsOperation: BasicOperation {
 
+    let privateManagedObjectContext: NSManagedObjectContext
     
     private let fileHandler = FileHandler()
     
@@ -37,12 +38,22 @@ final class DownloadAssetsOperation: BasicOperation {
     init(types: [AssetType], context: NSManagedObjectContext) {
         self.context = context
         self.types = types
+  
+        // Initialize Managed Object Context
+        privateManagedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateManagedObjectContext.persistentStoreCoordinator = context.persistentStoreCoordinator
+        super.init()
     }
     
     // for single download
     init(id: Int, context: NSManagedObjectContext) {
         self.context = context
         self.id = id
+        
+        // Initialize Managed Object Context
+        privateManagedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateManagedObjectContext.persistentStoreCoordinator = context.persistentStoreCoordinator
+        super.init()
     }
     
     
@@ -58,7 +69,7 @@ final class DownloadAssetsOperation: BasicOperation {
     fileprivate func  singleDownload(id: Int?) {
         
         guard let id = id,
-            let asset = Asset.getAssetOfTypeMP4(with: id),
+            let asset = Asset.getAssetOfTypeMP4(with: id, context: privateManagedObjectContext),
             let fileName = asset.element?.fileName else {
             self.finish()
             return
@@ -84,7 +95,7 @@ final class DownloadAssetsOperation: BasicOperation {
     
     fileprivate func multipleDownload(types: [AssetType]?) {
         
-        guard let types = types, let assets = Asset.getAllAssets(of: types) else {
+        guard let types = types, let assets = Asset.getAllAssets(of: types, context: privateManagedObjectContext) else {
             self.error = CoreDataError.noResult(reason: "No assets could be found from CoreData before downloading them")
             self.finish()
             return
@@ -159,13 +170,13 @@ final class DownloadAssetsOperation: BasicOperation {
             }
             // set local path URL in CoreData
             guard let relativeURL = URL(string: task.key) else { return }
-            Asset.setLocalPath(localPath: relativeURL)
+            Asset.setLocalPath(localPath: relativeURL, context: self.privateManagedObjectContext)
      
             // write fingerprint to CoreData
             do {
                 if let sha256 = try self.fileHandler.getSha256(filePath: fileURL) {
                     // 3. write local fingerprint to CoreData
-                    Asset.writeLocalFingerprint(fingerprint: sha256, relativeFilePath: relativeURL)
+                    Asset.writeLocalFingerprint(fingerprint: sha256, relativeFilePath: relativeURL, context: self.privateManagedObjectContext)
                 }
             } catch {
                 // TODO: we need to concatenate the possible errors
@@ -175,10 +186,10 @@ final class DownloadAssetsOperation: BasicOperation {
             let fileName = key.fileNameFromPath() // transform "video/pullups.mp4" -> "pullups"
             
             if key.assetType() == .mp4 {
-                Element.setDownloadedFlag(fileName: fileName, type: .mp4)
+                Element.setDownloadedFlag(fileName: fileName, type: .mp4, context: self.privateManagedObjectContext)
             } else if key.assetType() == .png {
                 // set downloaded flag in CoreData for the NSFetchedResultsControllerDelegate methods
-                Element.setDownloadedFlag(fileName: fileName, type: .png)
+                Element.setDownloadedFlag(fileName: fileName, type: .png, context: self.privateManagedObjectContext)
             }
 
             completion()

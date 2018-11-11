@@ -39,7 +39,7 @@ import AWSCore
  */
 final class ProcessJSONOperation: BasicOperation {
     
-    //let privateManagedObjectContext: NSManagedObjectContext
+    let privateManagedObjectContext: NSManagedObjectContext
     
     public var newJSONTimestamp: Bool
     private var context: NSManagedObjectContext
@@ -49,11 +49,9 @@ final class ProcessJSONOperation: BasicOperation {
         self.newJSONTimestamp = true
         
         // Initialize Managed Object Context
-//        privateManagedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-//        // Configure Managed Object Context
-//        privateManagedObjectContext.persistentStoreCoordinator = context.persistentStoreCoordinator
+        privateManagedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateManagedObjectContext.persistentStoreCoordinator = context.persistentStoreCoordinator
 
-        
         super.init()
     }
 
@@ -103,7 +101,7 @@ final class ProcessJSONOperation: BasicOperation {
                 let json = try Array<ElementDecodable>.decode(data: data)
                 _ = json.compactMap {
                     print($0)
-                    Element.generateFromJson(element: $0)
+                    Element.generateFromJson(element: $0, context: self.privateManagedObjectContext)
                 }
                 
                 self.finish()

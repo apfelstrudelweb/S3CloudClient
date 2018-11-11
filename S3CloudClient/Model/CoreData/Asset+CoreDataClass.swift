@@ -14,14 +14,13 @@ import CoreData
 public class Asset: NSManagedObject {
     
     
-    convenience init(type: Int16) {
-        self.init(context: PersistencyManager.shared.managedObjectContext)
+    convenience init(type: Int16, context: NSManagedObjectContext) {
+        self.init(context: context)
         self.type = type
     }
     
-    class func getAssetOfTypeMP4(with id: Int) -> Asset? {
+    class func getAssetOfTypeMP4(with id: Int, context: NSManagedObjectContext) -> Asset? {
         
-        let context = PersistencyManager.shared.managedObjectContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Asset")
         let predicate1 = NSPredicate(format: "element.id == %d", id)
         let predicate2 = NSPredicate(format: "type == %d", AssetType.mp4.rawValue)
@@ -38,9 +37,8 @@ public class Asset: NSManagedObject {
         return nil
     }
     
-    class func getAllAssets(of types: [AssetType]) -> [Asset]? {
+    class func getAllAssets(of types: [AssetType], context: NSManagedObjectContext) -> [Asset]? {
         
-        let context = PersistencyManager.shared.managedObjectContext
         var predicates = [NSPredicate]()
         
         for type in types {
@@ -65,9 +63,8 @@ public class Asset: NSManagedObject {
     
     // iOS 8 onwards, absolute url to app's sandbox changes every time at app start
     // Hence we should never save the absolute url of the asset
-    class func setLocalPath(localPath: URL) {
+    class func setLocalPath(localPath: URL, context: NSManagedObjectContext) {
         
-        let context = PersistencyManager.shared.managedObjectContext
         guard let fileName = localPath.lastPathComponent.components(separatedBy: ".").first else { return } // filename without extension
         let type = localPath.pathExtension.assetType()
         
@@ -80,7 +77,7 @@ public class Asset: NSManagedObject {
         do {
             if let fetchedAsset = try (context.fetch(fetchRequest) as! [Asset]).first {
                 fetchedAsset.relativeFilePath = localPath.absoluteString
-                PersistencyManager.shared.saveContext()
+                try context.save()
             }
 
         } catch {
@@ -88,9 +85,8 @@ public class Asset: NSManagedObject {
         }
     }
     
-    class func writeLocalFingerprint(fingerprint: String, relativeFilePath: URL) {
+    class func writeLocalFingerprint(fingerprint: String, relativeFilePath: URL, context: NSManagedObjectContext) {
         
-        let context = PersistencyManager.shared.managedObjectContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Asset")
         fetchRequest.predicate = NSPredicate(format: "relativeFilePath == %@", relativeFilePath as CVarArg)
         

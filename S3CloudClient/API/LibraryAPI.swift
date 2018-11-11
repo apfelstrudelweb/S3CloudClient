@@ -7,12 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
 /**
  * Facade Pattern:
  *
  * Only LibraryAPI holds instances of
- *  - PersistencyManager,
  *  - FileHandler,
  *  - CloudHandler.
  *
@@ -23,64 +23,59 @@ import UIKit
  */
 final class LibraryAPI: NSObject {
     
-
+    private var clientContext: ClientContext
+    private var moc: NSManagedObjectContext
+    
+    
     private var newJSONTimestamp: Bool = false
     
-    static let shared = LibraryAPI()
-    
     // Helper classes
-    private let persistencyManager = PersistencyManager.shared // Singelton due to one unique ManagedObjectContext
     private let fileHandler = FileHandler()
     private let cloudHandler = CloudHandler()
     
+    public init(with context: ClientContext) {
+        self.clientContext = context
+        self.moc = context.persistentContainer.viewContext
+    }
     
-    // Operations
-    private let queue: OperationQueue = OperationQueue()
-
-    
+ 
     // Mark: for testing only
     func clearLocalFilesAndSettings() {
         fileHandler.removeAllFiles()
-        persistencyManager.clearSQLite()
+        clientContext.deleteAllElements()
+        //Element.deleteAll(context: moc)
         UserDefaults.standard.set(nil, forKey: "jsonModificationDate")
     }
     
     // Mark: download JSON data from Cloud
     func updateCoreDataWithJSON()  {
         
-        // avoid multiple calls by "pull to refresh"
-        if self.queue.operationCount == 0 {
-            let processJSONOperation = ProcessJSONOperation(context: persistencyManager.managedObjectContext)
-            self.queue.addOperations([processJSONOperation], waitUntilFinished: true)
-            self.newJSONTimestamp = processJSONOperation.newJSONTimestamp
-            guard let error = processJSONOperation.error else { return }
-            displayAlert(message: error.legibleDescription)
-        }
+        let processJSONOperation = ProcessJSONOperation(context: moc)
+        self.clientContext.persistenceQueue.addOperations([processJSONOperation], waitUntilFinished: true)
+        self.newJSONTimestamp = processJSONOperation.newJSONTimestamp
+        guard let error = processJSONOperation.error else { return }
+        displayAlert(message: error.legibleDescription)
     }
     
     // Mark: download assets from Cloud and generate fingerprints
     func downloadAssets(types: [AssetType]) {
         
-        if !self.newJSONTimestamp && Element.downloadOfPNGsCompleted() { return }
-        
-        // avoid multiple calls by "pull to refresh"
-        if self.queue.operationCount == 0 {
-            let downloadAssetsOperation = DownloadAssetsOperation(types: types, context: self.persistencyManager.managedObjectContext)
-            self.queue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
-            guard let error = downloadAssetsOperation.error else { return }
-            displayAlert(message: error.legibleDescription)
-        }
+        if !self.newJSONTimestamp && Element.downloadOfPNGsCompleted(context: moc) { return }
+
+        let downloadAssetsOperation = DownloadAssetsOperation(types: types, context: clientContext.persistentContainer.viewContext)
+        self.clientContext.persistenceQueue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
+        guard let error = downloadAssetsOperation.error else { return }
+        displayAlert(message: error.legibleDescription)
     }
     
     func downloadMP4(index: Int) {
-        
-        if self.queue.operationCount == 0 {
-            let id = index + 1 // video ids start at 1
-            let downloadAssetsOperation = DownloadAssetsOperation(id: id, context: persistencyManager.managedObjectContext)
-            queue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
-            guard let error = downloadAssetsOperation.error else { return }
-            displayAlert(message: error.legibleDescription)
-        }
+ 
+        let id = index + 1 // video ids start at 1
+        let downloadAssetsOperation = DownloadAssetsOperation(id: id, context: moc)
+        self.clientContext.persistenceQueue.addOperations([downloadAssetsOperation], waitUntilFinished: true)
+        guard let error = downloadAssetsOperation.error else { return }
+        displayAlert(message: error.legibleDescription)
+
     }
 
 }

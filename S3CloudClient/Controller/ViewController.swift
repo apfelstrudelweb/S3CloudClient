@@ -16,19 +16,29 @@ class ViewController: UIViewController, VideoCellDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private let persistencyManager = PersistencyManager.shared
-    private let libraryAPI = LibraryAPI.shared
-    
-    
     private let fileHandler = FileHandler()
     private let refreshControl = UIRefreshControl()
+    
+    private var libraryAPI: LibraryAPI?
+    
+    let clientContext: ClientContext = {
+        
+        let persistentContainer = NSPersistentContainer(name: "S3CloudClient", managedObjectModel: ClientContext.clientModel)
+        persistentContainer.loadPersistentStores { description, error in
+            
+            print("description", description)
+            print("error", error?.localizedDescription ?? "no error")
+        }
+        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+        return ClientContext(persistentContainer: persistentContainer)
+    }()
     
     fileprivate lazy var fetchedResultsControllerElement: NSFetchedResultsController<Element> = {
         
         let fetchRequest = NSFetchRequest<Element> (entityName: "Element")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "previewImagePresent == true") // otherwise it doesn't make sense to display elements in table view
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: persistencyManager.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: clientContext.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         return fetchedResultsController
     }()
@@ -39,7 +49,8 @@ class ViewController: UIViewController, VideoCellDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(showDownloadProgress), name: Notification.Name(progressUpdateNotification), object: nil)
         
-        //LibraryAPI.shared.clearSQLite()  // for test purposes only
+        libraryAPI = LibraryAPI.init(with: clientContext)
+        libraryAPI?.clearLocalFilesAndSettings() // for test purposes only
         
         self.tableView.register(VideoCell.self)
         self.tableView.tableFooterView = UIView(frame: .zero)
@@ -70,8 +81,8 @@ class ViewController: UIViewController, VideoCellDelegate {
         // do expensive operations in the background thread in order to not block the GUI meanwhile
         DispatchQueue.global(qos: .background).async {
             
-            LibraryAPI.shared.updateCoreDataWithJSON()
-            LibraryAPI.shared.downloadAssets(types: [.png, .srt])
+            self.libraryAPI?.updateCoreDataWithJSON()
+            self.libraryAPI?.downloadAssets(types: [.png, .srt])
         }
     }
     
@@ -84,15 +95,16 @@ class ViewController: UIViewController, VideoCellDelegate {
     
     @IBAction func clearAllButtonTouched(_ sender: Any) {
         
-        LibraryAPI.shared.clearLocalFilesAndSettings()
+        libraryAPI?.clearLocalFilesAndSettings()
         print("**************** all data cleared ****************")
+        
     }
     
     @IBAction func downloaddAllButtonTouched(_ sender: Any) {
         
         DispatchQueue.global(qos: .background).async {
             
-            LibraryAPI.shared.downloadAssets(types: [.mp4])
+            self.libraryAPI?.downloadAssets(types: [.mp4])
             print("**************** multiple videos requested ****************")
         }
     }
@@ -103,7 +115,7 @@ class ViewController: UIViewController, VideoCellDelegate {
         // TODO: avoid multiple downloads of the same video
         DispatchQueue.global(qos: .background).async {
             
-            LibraryAPI.shared.downloadMP4(index: indexPath.row)
+            self.libraryAPI?.downloadMP4(index: indexPath.row)
             print("**************** single video requested ****************")
         }
     }
@@ -121,7 +133,7 @@ class ViewController: UIViewController, VideoCellDelegate {
         
         DispatchQueue.main.async {
             
-            guard let index = Element.getIndex(of: filename) else { return }
+            guard let index = Element.getIndex(of: filename, context: self.clientContext.persistentContainer.viewContext) else { return }
             if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? VideoCell {
                 cell.showProgress(progress: progress)
             }

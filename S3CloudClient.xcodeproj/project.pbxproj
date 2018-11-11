@@ -15,7 +15,6 @@
 		1B99AFD5218B5A3D00CFD7EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B99AFD4218B5A3D00CFD7EC /* Assets.xcassets */; };
 		1B99AFD8218B5A3D00CFD7EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B99AFD6218B5A3D00CFD7EC /* LaunchScreen.storyboard */; };
 		1B99AFE3218B5A3D00CFD7EC /* S3CloudClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFE2218B5A3D00CFD7EC /* S3CloudClientTests.swift */; };
-		1B99AFF1218B5A8900CFD7EC /* PersistencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFF0218B5A8900CFD7EC /* PersistencyManager.swift */; };
 		1B99AFF4218B5AA900CFD7EC /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFF3218B5AA900CFD7EC /* FileHandler.swift */; };
 		1B99AFF8218B5AE000CFD7EC /* LibraryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFF7218B5AE000CFD7EC /* LibraryAPI.swift */; };
 		1B99AFFA218B5B8E00CFD7EC /* CloudHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99AFF9218B5B8E00CFD7EC /* CloudHandler.swift */; };
@@ -32,6 +31,7 @@
 		1B99B014218C7BA100CFD7EC /* ProcessJSONOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99B013218C7BA100CFD7EC /* ProcessJSONOperation.swift */; };
 		1BA5D927219827F800D3646D /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5D926219827F700D3646D /* Reusable.swift */; };
 		1BA5D92A2198316900D3646D /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5D9292198316900D3646D /* VideoViewModel.swift */; };
+		1BA5D92C21985D5A00D3646D /* ClientContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5D92B21985D5A00D3646D /* ClientContext.swift */; };
 		1BF4D532218C89A900D86D9A /* BasicOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF4D531218C89A900D86D9A /* BasicOperation.swift */; };
 		1BF4D537218E1B1D00D86D9A /* DownloadAssetsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF4D536218E1B1D00D86D9A /* DownloadAssetsOperation.swift */; };
 		1BF4D53E218F25D500D86D9A /* VideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF4D53C218F25D400D86D9A /* VideoCell.xib */; };
@@ -63,7 +63,6 @@
 		1B99AFDE218B5A3D00CFD7EC /* S3CloudClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = S3CloudClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B99AFE2218B5A3D00CFD7EC /* S3CloudClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3CloudClientTests.swift; sourceTree = "<group>"; };
 		1B99AFE4218B5A3D00CFD7EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1B99AFF0218B5A8900CFD7EC /* PersistencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistencyManager.swift; sourceTree = "<group>"; };
 		1B99AFF3218B5AA900CFD7EC /* FileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHandler.swift; sourceTree = "<group>"; };
 		1B99AFF7218B5AE000CFD7EC /* LibraryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryAPI.swift; sourceTree = "<group>"; };
 		1B99AFF9218B5B8E00CFD7EC /* CloudHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudHandler.swift; sourceTree = "<group>"; };
@@ -80,6 +79,7 @@
 		1B99B013218C7BA100CFD7EC /* ProcessJSONOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessJSONOperation.swift; sourceTree = "<group>"; };
 		1BA5D926219827F700D3646D /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		1BA5D9292198316900D3646D /* VideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewModel.swift; sourceTree = "<group>"; };
+		1BA5D92B21985D5A00D3646D /* ClientContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientContext.swift; sourceTree = "<group>"; };
 		1BF4D531218C89A900D86D9A /* BasicOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicOperation.swift; sourceTree = "<group>"; };
 		1BF4D536218E1B1D00D86D9A /* DownloadAssetsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadAssetsOperation.swift; sourceTree = "<group>"; };
 		1BF4D53D218F25D500D86D9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/VideoCell.xib; sourceTree = "<group>"; };
@@ -142,6 +142,7 @@
 				1B99AFCA218B5A3B00CFD7EC /* AppDelegate.swift */,
 				1B99AFD4218B5A3D00CFD7EC /* Assets.xcassets */,
 				1B99AFD9218B5A3D00CFD7EC /* Info.plist */,
+				1BA5D92B21985D5A00D3646D /* ClientContext.swift */,
 			);
 			path = S3CloudClient;
 			sourceTree = "<group>";
@@ -160,7 +161,6 @@
 			children = (
 				1B99AFF9218B5B8E00CFD7EC /* CloudHandler.swift */,
 				1B99AFF3218B5AA900CFD7EC /* FileHandler.swift */,
-				1B99AFF0218B5A8900CFD7EC /* PersistencyManager.swift */,
 				1B99AFF7218B5AE000CFD7EC /* LibraryAPI.swift */,
 			);
 			path = API;
@@ -438,7 +438,6 @@
 			files = (
 				1B99B014218C7BA100CFD7EC /* ProcessJSONOperation.swift in Sources */,
 				1B99B00C218C641000CFD7EC /* Error.swift in Sources */,
-				1B99AFF1218B5A8900CFD7EC /* PersistencyManager.swift in Sources */,
 				1B99B00A218C630100CFD7EC /* FileSystem.swift in Sources */,
 				1B99B007218C5FC600CFD7EC /* Asset+CoreDataClass.swift in Sources */,
 				1B99B008218C5FC600CFD7EC /* Asset+CoreDataProperties.swift in Sources */,
@@ -446,6 +445,7 @@
 				1B99B011218C6AB900CFD7EC /* Utilities.swift in Sources */,
 				1B99AFFA218B5B8E00CFD7EC /* CloudHandler.swift in Sources */,
 				1BA5D927219827F800D3646D /* Reusable.swift in Sources */,
+				1BA5D92C21985D5A00D3646D /* ClientContext.swift in Sources */,
 				1B99AFF8218B5AE000CFD7EC /* LibraryAPI.swift in Sources */,
 				1B99B006218C5FC600CFD7EC /* Element+CoreDataProperties.swift in Sources */,
 				1BF4D537218E1B1D00D86D9A /* DownloadAssetsOperation.swift in Sources */,

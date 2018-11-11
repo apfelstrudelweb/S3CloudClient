@@ -13,9 +13,8 @@ import CoreData
 @objc(Element)
 public class Element: NSManagedObject {
     
-    class func getIndex(of fileName: String) -> Int? {
+    class func getIndex(of fileName: String, context: NSManagedObjectContext) -> Int? {
         
-        let context = PersistencyManager.shared.managedObjectContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
         fetchRequest.predicate = NSPredicate(format: "fileName == %@", fileName)
         
@@ -32,9 +31,8 @@ public class Element: NSManagedObject {
         return nil
     }
     
-    class func getAllElements() -> [String]? {
+    class func getAllElements(context: NSManagedObjectContext) -> [String]? {
         
-        let context = PersistencyManager.shared.managedObjectContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
         var elements = [String]()
         
@@ -56,9 +54,8 @@ public class Element: NSManagedObject {
         return elements
     }
     
-    class func downloadOfPNGsCompleted() -> Bool {
+    class func downloadOfPNGsCompleted(context: NSManagedObjectContext) -> Bool {
         
-        let context = PersistencyManager.shared.managedObjectContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
         //fetchRequest.predicate = NSPredicate(format: "previewImagePresent == true")
         
@@ -79,9 +76,8 @@ public class Element: NSManagedObject {
         return false
     }
     
-    class func setDownloadedFlag(fileName: String, type: AssetType) {
+    class func setDownloadedFlag(fileName: String, type: AssetType, context: NSManagedObjectContext) {
         
-        let context = PersistencyManager.shared.managedObjectContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
         fetchRequest.predicate = NSPredicate(format: "fileName == %@", fileName)
         
@@ -98,7 +94,7 @@ public class Element: NSManagedObject {
                         fetchedElement.videoPresent = true
                     }
                 }
-                PersistencyManager.shared.saveContext()
+                try context.save()
             }
             
         } catch {
@@ -107,15 +103,13 @@ public class Element: NSManagedObject {
     }
     
     
-    class func generateFromJson(element: ElementDecodable) {
+    class func generateFromJson(element: ElementDecodable, context: NSManagedObjectContext) {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
         fetchRequest.predicate = NSPredicate(format: "fileName == %@", element.fileName)
         
         var elementCD: Element?
         var assetsCD: NSSet?
-        
-        let context = PersistencyManager.shared.managedObjectContext
         
         do {
             
@@ -124,9 +118,9 @@ public class Element: NSManagedObject {
                 assetsCD = elementCD?.assets
             } else {
                 elementCD = Element(context: context)
-                assetsCD = [Asset.init(type: AssetType.mp4.rawValue),
-                            Asset.init(type: AssetType.png.rawValue),
-                            Asset.init(type: AssetType.srt.rawValue)]
+                assetsCD = [Asset.init(type: AssetType.mp4.rawValue, context: context),
+                            Asset.init(type: AssetType.png.rawValue, context: context),
+                            Asset.init(type: AssetType.srt.rawValue, context: context)]
             }
             
             let assetMP4 = assetsCD?.first { ($0 as! Asset).type == AssetType.mp4.rawValue } as? Asset
@@ -151,9 +145,26 @@ public class Element: NSManagedObject {
             elementCD?.videoPresent = false
             elementCD?.previewImagePresent = false
 
-            PersistencyManager.shared.saveContext()
+            try context.save()
+            
         } catch {
             print(error)
+        }
+    }
+    
+    class func deleteAll(context: NSManagedObjectContext) {
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(fetchRequest)
+            for object in results {
+                guard let objectData = object as? NSManagedObject else { continue }
+                context.delete(objectData)
+            }
+            try context.save()
+        } catch let error {
+            print("Detele all data error :", error)
         }
     }
 

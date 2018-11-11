@@ -21,7 +21,9 @@ class FileHandler: NSObject {
                 // Create subdir such as "image" or "subtitle" if not present
                 do {
                     let subdirURL = documentURL.appendingPathComponent(type.subdirAsString())
-                    try FileManager.default.removeItem(at: subdirURL)
+                    if FileManager.default.fileExists(atPath: subdirURL.path) {
+                        try FileManager.default.removeItem(at: subdirURL)
+                    }
                 } catch {
                     print(error)
                 }

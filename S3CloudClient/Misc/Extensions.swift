@@ -73,3 +73,89 @@ public extension NSManagedObject {
         self.init(entity: entity, insertInto: context)
     }
 }
+
+public extension DispatchQueue {
+    
+    func async(persistentContainer: NSPersistentContainer, perform: @escaping (NSManagedObjectContext)->Void) {
+        
+        self.async { [weak persistentContainer] in
+            
+            persistentContainer?.newBackgroundContext().performIn(perform)
+        }
+    }
+}
+
+public extension OperationQueue {
+    
+    func addOperation(persistentContainer: NSPersistentContainer, perform: @escaping (NSManagedObjectContext)->Void) {
+        
+        self.addOperation { [weak persistentContainer] in
+            
+            persistentContainer?.newBackgroundContext().performAndWaitIn(perform)
+        }
+    }
+}
+
+public extension NSManagedObjectContext {
+    
+    func performAndWaitIn(_ block:@escaping (NSManagedObjectContext) -> Void) {
+        
+        self.performAndWait {
+            
+            block(self)
+        }
+    }
+    
+    func performIn(_ block:@escaping (NSManagedObjectContext) -> Void) {
+        
+        self.perform {
+            
+            block(self)
+        }
+    }
+    
+    func performAndWaitResult<T>(_ block:@escaping (NSManagedObjectContext) -> T?) -> T? {
+        
+        var result:T?
+        self.performAndWait {
+            
+            result = block(self)
+        }
+        return result
+    }
+}
+
+public extension Bundle {
+    
+    
+    func subspecURL(subspecName:String) -> URL {
+        return self.bundleURL.appendingPathComponent(subspecName.appending(".bundle"))
+    }
+    
+    
+    func dataModelURL(modelName:String) -> URL {
+        return self.url(forResource: modelName, withExtension: "momd")!
+    }
+}
+
+extension ClientContext {
+    
+    func deleteAllElements() {
+        
+        self.persistenceQueue.addOperation(persistentContainer: self.persistentContainer) { context in
+            
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Element")
+            fetchRequest.returnsObjectsAsFaults = false
+            do {
+                let results = try context.fetch(fetchRequest)
+                for object in results {
+                    guard let objectData = object as? NSManagedObject else { continue }
+                    context.delete(objectData)
+                }
+                try context.save()
+            } catch let error {
+                print("Detele all data error :", error)
+            }
+        }
+    }
+}

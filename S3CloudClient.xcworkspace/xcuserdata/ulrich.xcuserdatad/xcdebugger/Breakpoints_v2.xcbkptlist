@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "S3CloudClient/API/CloudHandler.swift"
-            timestampString = "563183932.695797"
+            timestampString = "563641151.730557"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "setupS3()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "S3CloudClient/Operations/ProcessJSONOperation.swift"
-            timestampString = "563213335.679009"
+            timestampString = "563641151.73061"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "S3CloudClient/Model/CoreData/Asset+CoreDataClass.swift"
-            timestampString = "563213335.679068"
+            timestampString = "563641151.730655"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "getAllAssets(of:)"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "getAllAssets(of:context:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "S3CloudClient/Operations/DownloadAssetsOperation.swift"
-            timestampString = "563620748.5413491"
+            timestampString = "563641151.730852"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "multipleDownload(types:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "S3CloudClient/Operations/DownloadAssetsOperation.swift"
-            timestampString = "563620748.541711"
+            timestampString = "563641151.731191"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "multipleDownload(types:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,61 +122,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "S3CloudClient/Model/CoreData/Element+CoreDataClass.swift"
-            timestampString = "563213335.6815211"
+            timestampString = "563641151.731485"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
-            landmarkName = "generateFromJson(element:)"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "generateFromJson(element:context:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "S3CloudClient/API/FileHandler.swift"
-            timestampString = "563213335.6815799"
+            filePath = "S3CloudClient/API/LibraryAPI.swift"
+            timestampString = "563641151.731534"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "getSha256(filePath:)"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "init(with:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "S3CloudClient.FileHandler.getSha256(filePath: Foundation.URL) throws -&gt; Swift.Optional&lt;Swift.String&gt;"
-                  moduleName = "S3CloudClient"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ulrich/VideoProjekt/S3CloudClient/S3CloudClient/API/FileHandler.swift"
-                  timestampString = "563623269.029471"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "90"
-                  endingLineNumber = "90"
-                  offsetFromSymbolStart = "278">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "S3CloudClient.FileHandler.getSha256(filePath: Foundation.URL) throws -&gt; Swift.Optional&lt;Swift.String&gt;"
-                  moduleName = "S3CloudClient"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ulrich/VideoProjekt/S3CloudClient/S3CloudClient/API/FileHandler.swift"
-                  timestampString = "563623269.032349"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "90"
-                  endingLineNumber = "90"
-                  offsetFromSymbolStart = "594">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
